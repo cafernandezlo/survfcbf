@@ -1,0 +1,50 @@
+%% survfcbf -- supplementary material of the Application Note, a single PDF as the
+%% journal asks, uploaded unchanged to bioRxiv as the preprint's supplementary file.
+%% The text is supplement_body.tex. Its tables
+%% and quoted figures are generated in generated/ by
+%%   Rscript --no-init-file paper/make_supplementary_tables.R
+%% Build with build_appnote.sh, which compiles the note, this file and the preprint.
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{newtxtext,newtxmath}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{microtype}
+\usepackage{booktabs,tabularx}
+\usepackage[section]{placeins}   % keep each table inside its own section
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[round,authoryear]{natbib}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\usepackage{orcidlink}
+
+\input{macros}
+\input{generated/supp_numbers}
+
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+
+\title{Supplementary material for\\[4pt]
+\pkg{survfcbf}: fast correlation-based filter feature selection for right-censored
+survival data}
+\author{Carlos Fernandez-Lozano\,\orcidlink{0000-0003-0413-5677}\\[4pt]
+{\small Department of Computer Science and Information Technologies, Faculty of Computer
+Science,}\\
+{\small Universidade da Coru\~na, 15071 A Coru\~na, Spain}}
+\date{}
+
+\begin{document}
+
+\maketitle
+% "S10" is wider than the default section number box of the contents
+\makeatletter\renewcommand*\l@section[2]{\@dottedtocline{1}{0pt}{2.6em}{\bfseries #1}{\bfseries #2}}\makeatother
+{\small\tableofcontents}
+\bigskip
+
+\input{supplement_body}
+
+\bibliographystyle{oup-abbrvnat}
+\bibliography{appnote}
+
+\end{document}

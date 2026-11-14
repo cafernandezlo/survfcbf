@@ -1,0 +1,44 @@
+Package: survfcbf
+Title: Fast Correlation-Based Filter Feature Selection for Survival Data
+Version: 0.1.0
+Authors@R:
+    person("Carlos", "Fernandez-Lozano",
+           email = "carlos.fernandez@udc.es",
+           role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-0413-5677"))
+Description: Adapts the fast correlation-based filter (FCBF) of Yu and Liu
+    (2004) <https://www.jmlr.org/papers/v5/yu04a.html> to right-censored
+    survival data. Features are ranked by symmetrical uncertainty with the
+    martingale residuals of a covariate-free Cox model, the target used for
+    information-theoretic filters in the benchmark of Bommert et al. (2021)
+    <doi:10.1093/bib/bbab354>, and pruned by approximate Markov blankets.
+    Provides the filter together with a leakage-safe nested cross-validation
+    harness, a survival data simulator with known cluster-level ground truth,
+    and wrappers for standard filter baselines.
+License: GPL-3
+URL: https://github.com/cafernandezlo/survfcbf
+BugReports: https://github.com/cafernandezlo/survfcbf/issues
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Depends:
+    R (>= 4.1)
+Imports:
+    survival
+Suggests:
+    carSurv,
+    glmnet,
+    grpreg,
+    knitr,
+    lgr,
+    mlr3,
+    mlr3extralearners,
+    mlr3proba,
+    praznik,
+    ranger,
+    rmarkdown,
+    stabm,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Additional_repositories: https://mlr-org.r-universe.dev
+Config/testthat/edition: 3

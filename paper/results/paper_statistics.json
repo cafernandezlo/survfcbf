@@ -1,0 +1,2805 @@
+{
+  "generated": "2026-11-23 16:41:43",
+  "cohorts": {
+    "n_cohorts": 11,
+    "n_range": [124, 735],
+    "events_range": [52, 152],
+    "p_range": [22313, 26814],
+    "total_patients": 3959,
+    "total_events": 1009
+  },
+  "benchmark": {
+    "uno_c": {
+      "carss": 0.612,
+      "cox_glmnet_l1": 0.609,
+      "variance": 0.607,
+      "mim_surv": 0.601,
+      "survfcbf": 0.584,
+      "survfcbf_cvq": 0.555,
+      "survfcbf_topk": 0.543
+    },
+    "stability": {
+      "variance": 0.943,
+      "carss": 0.41,
+      "cox_glmnet_l1": 0.254,
+      "mim_surv": 0.202,
+      "survfcbf_topk": 0.104,
+      "survfcbf_cvq": 0.047,
+      "survfcbf": 0.01
+    },
+    "parsimony": {
+      "carss": 2398.1,
+      "cox_glmnet_l1": 15.9,
+      "mim_surv": 2398.1,
+      "survfcbf": 1.8,
+      "survfcbf_cvq": 3.5,
+      "survfcbf_topk": 10,
+      "variance": 2398.1
+    },
+    "failed_folds": {
+      "carss": 0,
+      "cox_glmnet_l1": 1.09,
+      "mim_surv": 0,
+      "survfcbf": 3.82,
+      "survfcbf_cvq": 3.09,
+      "survfcbf_topk": 0,
+      "variance": 0
+    },
+    "na_cohorts": {
+      "carss": 0,
+      "cox_glmnet_l1": 1,
+      "mim_surv": 0,
+      "survfcbf": 6,
+      "survfcbf_cvq": 2,
+      "survfcbf_topk": 0,
+      "variance": 0
+    },
+    "null_fit_folds": {
+      "carss": 2,
+      "cox_glmnet_l1": 0,
+      "mim_surv": 0,
+      "survfcbf": 0,
+      "survfcbf_cvq": 1,
+      "survfcbf_topk": 0,
+      "variance": 3
+    },
+    "bayes_vs_topk": {
+      "carss": {
+        "uno_c": {
+          "p_topk": 0,
+          "p_rope": 0,
+          "p_rival": 1,
+          "n": 11,
+          "p_rival_mean_summary": 0.96
+        },
+        "stability": {
+          "p_topk": 0,
+          "p_rope": 0,
+          "p_rival": 1
+        }
+      },
+      "cox_glmnet_l1": {
+        "uno_c": {
+          "p_topk": 0,
+          "p_rope": 0.01,
+          "p_rival": 0.99,
+          "n": 10,
+          "p_rival_mean_summary": 0.84
+        },
+        "stability": {
+          "p_topk": 0,
+          "p_rope": 0.07,
+          "p_rival": 0.93
+        }
+      },
+      "mim_surv": {
+        "uno_c": {
+          "p_topk": 0,
+          "p_rope": 0,
+          "p_rival": 1,
+          "n": 11,
+          "p_rival_mean_summary": 0.89
+        },
+        "stability": {
+          "p_topk": 0,
+          "p_rope": 0.02,
+          "p_rival": 0.98
+        }
+      },
+      "survfcbf": {
+        "uno_c": {
+          "p_topk": 0.02,
+          "p_rope": 0.53,
+          "p_rival": 0.45,
+          "n": 5,
+          "p_rival_mean_summary": 0.45
+        },
+        "stability": {
+          "p_topk": 0.98,
+          "p_rope": 0.02,
+          "p_rival": 0
+        }
+      },
+      "survfcbf_cvq": {
+        "uno_c": {
+          "p_topk": 0.25,
+          "p_rope": 0.11,
+          "p_rival": 0.63,
+          "n": 9,
+          "p_rival_mean_summary": 0.45
+        },
+        "stability": {
+          "p_topk": 0.6,
+          "p_rope": 0.4,
+          "p_rival": 0
+        }
+      },
+      "variance": {
+        "uno_c": {
+          "p_topk": 0,
+          "p_rope": 0,
+          "p_rival": 1,
+          "n": 11,
+          "p_rival_mean_summary": 0.95
+        },
+        "stability": {
+          "p_topk": 0,
+          "p_rope": 0,
+          "p_rival": 1
+        }
+      }
+    },
+    "gap_ci_vs_topk": {
+      "variance": {
+        "diff": -0.065,
+        "lo": -0.089,
+        "hi": -0.04
+      },
+      "carss": {
+        "diff": -0.07,
+        "lo": -0.098,
+        "hi": -0.042
+      },
+      "mim_surv": {
+        "diff": -0.058,
+        "lo": -0.087,
+        "hi": -0.03
+      }
+    }
+  },
+  "repeated_cv": {
+    "n_splits": 10,
+    "truncation_quantile": 0.8,
+    "headline": {
+      "means": {
+        "uno_c_trunc": {
+          "carss": 0.613,
+          "mim_surv": 0.617,
+          "survfcbf_topk": 0.569,
+          "variance": 0.616
+        },
+        "uno_c": {
+          "carss": 0.607,
+          "mim_surv": 0.604,
+          "survfcbf_topk": 0.561,
+          "variance": 0.598
+        },
+        "ibs": {
+          "carss": 0.228,
+          "mim_surv": 0.226,
+          "survfcbf_topk": 0.23,
+          "variance": 0.229
+        },
+        "stability": {
+          "carss": 0.41,
+          "mim_surv": 0.2,
+          "survfcbf_topk": 0.109,
+          "variance": 0.942
+        },
+        "parsimony": {
+          "carss": 2398.091,
+          "mim_surv": 2398.091,
+          "survfcbf_topk": 10,
+          "variance": 2398.091
+        }
+      },
+      "inference": {
+        "stability": {
+          "carss": {
+            "focus": 0.109,
+            "rival": 0.41,
+            "diff": -0.301,
+            "se": 0.009,
+            "cohorts": "0-11",
+            "p_focus": 0,
+            "p_rope": 0,
+            "p_rival": 1,
+            "verdict": "rival better",
+            "splits_same_verdict": 10,
+            "sd_between_splits": 0.036,
+            "sd_between_cohorts": 0.03
+          },
+          "mim_surv": {
+            "focus": 0.109,
+            "rival": 0.2,
+            "diff": -0.091,
+            "se": 0.018,
+            "cohorts": "1-10",
+            "p_focus": 0,
+            "p_rope": 0.042,
+            "p_rival": 0.958,
+            "verdict": "rival better",
+            "splits_same_verdict": 7,
+            "sd_between_splits": 0.035,
+            "sd_between_cohorts": 0.061
+          },
+          "variance": {
+            "focus": 0.109,
+            "rival": 0.942,
+            "diff": -0.833,
+            "se": 0.009,
+            "cohorts": "0-11",
+            "p_focus": 0,
+            "p_rope": 0,
+            "p_rival": 1,
+            "verdict": "rival better",
+            "splits_same_verdict": 10,
+            "sd_between_splits": 0.035,
+            "sd_between_cohorts": 0.03
+          }
+        },
+        "uno_c": {
+          "carss": {
+            "focus": 0.561,
+            "rival": 0.607,
+            "diff": -0.045,
+            "se": 0.012,
+            "cohorts": "0-11",
+            "p_focus": 0,
+            "p_rope": 0.107,
+            "p_rival": 0.893,
+            "verdict": "undecided at n=11",
+            "splits_same_verdict": 6,
+            "sd_between_splits": 0.048,
+            "sd_between_cohorts": 0.041
+          },
+          "mim_surv": {
+            "focus": 0.561,
+            "rival": 0.604,
+            "diff": -0.043,
+            "se": 0.011,
+            "cohorts": "1-10",
+            "p_focus": 0,
+            "p_rope": 0.067,
+            "p_rival": 0.933,
+            "verdict": "undecided at n=11",
+            "splits_same_verdict": 5,
+            "sd_between_splits": 0.049,
+            "sd_between_cohorts": 0.036
+          },
+          "variance": {
+            "focus": 0.561,
+            "rival": 0.598,
+            "diff": -0.037,
+            "se": 0.011,
+            "cohorts": "0-11",
+            "p_focus": 0,
+            "p_rope": 0.373,
+            "p_rival": 0.627,
+            "verdict": "undecided at n=11",
+            "splits_same_verdict": 7,
+            "sd_between_splits": 0.052,
+            "sd_between_cohorts": 0.038
+          }
+        },
+        "uno_c_trunc": {
+          "carss": {
+            "focus": 0.569,
+            "rival": 0.613,
+            "diff": -0.044,
+            "se": 0.012,
+            "cohorts": "1-10",
+            "p_focus": 0,
+            "p_rope": 0.027,
+            "p_rival": 0.973,
+            "verdict": "rival better",
+            "splits_same_verdict": 7,
+            "sd_between_splits": 0.03,
+            "sd_between_cohorts": 0.038
+          },
+          "mim_surv": {
+            "focus": 0.569,
+            "rival": 0.617,
+            "diff": -0.048,
+            "se": 0.011,
+            "cohorts": "0-11",
+            "p_focus": 0,
+            "p_rope": 0.006,
+            "p_rival": 0.994,
+            "verdict": "rival better",
+            "splits_same_verdict": 7,
+            "sd_between_splits": 0.032,
+            "sd_between_cohorts": 0.036
+          },
+          "variance": {
+            "focus": 0.569,
+            "rival": 0.616,
+            "diff": -0.047,
+            "se": 0.012,
+            "cohorts": "2-9",
+            "p_focus": 0,
+            "p_rope": 0.019,
+            "p_rival": 0.981,
+            "verdict": "rival better",
+            "splits_same_verdict": 6,
+            "sd_between_splits": 0.032,
+            "sd_between_cohorts": 0.041
+          }
+        }
+      },
+      "gap_ci_trunc": {
+        "variance": {
+          "diff": -0.047,
+          "lo": -0.075,
+          "hi": -0.02
+        },
+        "carss": {
+          "diff": -0.044,
+          "lo": -0.07,
+          "hi": -0.019
+        },
+        "mim_surv": {
+          "diff": -0.048,
+          "lo": -0.072,
+          "hi": -0.024
+        }
+      },
+      "gap_ci_ibs": {
+        "variance": {
+          "diff": 0.001,
+          "lo": -0.017,
+          "hi": 0.019,
+          "cohorts_topk_worse": 8
+        },
+        "carss": {
+          "diff": 0.002,
+          "lo": -0.017,
+          "hi": 0.02,
+          "cohorts_topk_worse": 9
+        },
+        "mim_surv": {
+          "diff": 0.004,
+          "lo": -0.013,
+          "hi": 0.02,
+          "cohorts_topk_worse": 10
+        }
+      },
+      "gap_range_trunc": [-0.048, -0.044],
+      "null_fit_folds": {
+        "carss": 11,
+        "mim_surv": 3,
+        "survfcbf_topk": 1,
+        "variance": 29
+      },
+      "rope_sensitivity": {
+        "argmax": {
+          "stability": {
+            "carss": {
+              "rope_0.03": "rival better",
+              "rope_0.05": "rival better",
+              "rope_0.07": "rival better"
+            },
+            "mim_surv": {
+              "rope_0.03": "rival better",
+              "rope_0.05": "rival better",
+              "rope_0.07": "undecided at n=11"
+            },
+            "variance": {
+              "rope_0.03": "rival better",
+              "rope_0.05": "rival better",
+              "rope_0.07": "rival better"
+            }
+          },
+          "uno_c_trunc": {
+            "carss": {
+              "rope_0.01": "rival better",
+              "rope_0.02": "rival better",
+              "rope_0.03": "undecided at n=11"
+            },
+            "mim_surv": {
+              "rope_0.01": "rival better",
+              "rope_0.02": "rival better",
+              "rope_0.03": "undecided at n=11"
+            },
+            "variance": {
+              "rope_0.01": "rival better",
+              "rope_0.02": "rival better",
+              "rope_0.03": "undecided at n=11"
+            }
+          }
+        },
+        "mean": {
+          "stability": {
+            "carss": {
+              "rope_0.03": "rival better",
+              "rope_0.05": "rival better",
+              "rope_0.07": "rival better"
+            },
+            "mim_surv": {
+              "rope_0.03": "undecided at n=11",
+              "rope_0.05": "undecided at n=11",
+              "rope_0.07": "undecided at n=11"
+            },
+            "variance": {
+              "rope_0.03": "rival better",
+              "rope_0.05": "rival better",
+              "rope_0.07": "rival better"
+            }
+          },
+          "uno_c_trunc": {
+            "carss": {
+              "rope_0.01": "undecided at n=11",
+              "rope_0.02": "undecided at n=11",
+              "rope_0.03": "undecided at n=11"
+            },
+            "mim_surv": {
+              "rope_0.01": "undecided at n=11",
+              "rope_0.02": "undecided at n=11",
+              "rope_0.03": "undecided at n=11"
+            },
+            "variance": {
+              "rope_0.01": "undecided at n=11",
+              "rope_0.02": "undecided at n=11",
+              "rope_0.03": "undecided at n=11"
+            }
+          }
+        }
+      },
+      "p_rival_mean_summary": {
+        "variance": 0.806,
+        "carss": 0.787,
+        "mim_surv": 0.848
+      }
+    },
+    "matched": {
+      "K5": {
+        "means": {
+          "uno_c_trunc": {
+            "carss": 0.54,
+            "mim_surv": 0.574,
+            "mim_surv_q2": 0.57,
+            "mrmr": 0.562,
+            "mrmr_q2": 0.562,
+            "survfcbf_q2": 0.561,
+            "variance": 0.539
+          },
+          "uno_c": {
+            "carss": 0.536,
+            "mim_surv": 0.566,
+            "mim_surv_q2": 0.549,
+            "mrmr": 0.559,
+            "mrmr_q2": 0.555,
+            "survfcbf_q2": 0.549,
+            "variance": 0.525
+          },
+          "ibs": {
+            "carss": 0.26,
+            "mim_surv": 0.246,
+            "mim_surv_q2": 0.229,
+            "mrmr": 0.237,
+            "mrmr_q2": 0.236,
+            "survfcbf_q2": 0.232,
+            "variance": 0.264
+          },
+          "stability": {
+            "carss": 0.261,
+            "mim_surv": 0.031,
+            "mim_surv_q2": 0.128,
+            "mrmr": 0.013,
+            "mrmr_q2": 0.081,
+            "survfcbf_q2": 0.095,
+            "variance": 0.874
+          },
+          "parsimony": {
+            "carss": 5,
+            "mim_surv": 5,
+            "mim_surv_q2": 5,
+            "mrmr": 5,
+            "mrmr_q2": 5,
+            "survfcbf_q2": 5,
+            "variance": 5
+          }
+        },
+        "inference": {
+          "stability": {
+            "carss": {
+              "focus": 0.095,
+              "rival": 0.261,
+              "diff": -0.166,
+              "se": 0.027,
+              "cohorts": "0-11",
+              "p_focus": 0,
+              "p_rope": 0.001,
+              "p_rival": 0.999,
+              "verdict": "rival better",
+              "splits_same_verdict": 10,
+              "sd_between_splits": 0.07,
+              "sd_between_cohorts": 0.09
+            },
+            "mim_surv": {
+              "focus": 0.095,
+              "rival": 0.031,
+              "diff": 0.064,
+              "se": 0.012,
+              "cohorts": "9-2",
+              "p_focus": 0.839,
+              "p_rope": 0.162,
+              "p_rival": 0,
+              "verdict": "undecided at n=11",
+              "splits_same_verdict": 10,
+              "sd_between_splits": 0.05,
+              "sd_between_cohorts": 0.041
+            },
+            "mim_surv_q2": {
+              "focus": 0.095,
+              "rival": 0.128,
+              "diff": -0.033,
+              "se": 0.013,
+              "cohorts": "3-8",
+              "p_focus": 0,
+              "p_rope": 0.936,
+              "p_rival": 0.064,
+              "verdict": "undecided at n=11",
+              "splits_same_verdict": 8,
+              "sd_between_splits": 0.059,
+              "sd_between_cohorts": 0.042
+            },
+            "mrmr": {
+              "focus": 0.095,
+              "rival": 0.013,
+              "diff": 0.082,
+              "se": 0.01,
+              "cohorts": "11-0",
+              "p_focus": 0.993,
+              "p_rope": 0.007,
+              "p_rival": 0,
+              "verdict": "survfcbf better",
+              "splits_same_verdict": 7,
+              "sd_between_splits": 0.048,
+              "sd_between_cohorts": 0.034
+            },
+            "mrmr_q2": {
+              "focus": 0.095,
+              "rival": 0.081,
+              "diff": 0.014,
+              "se": 0.008,
+              "cohorts": "8-3",
+              "p_focus": 0,
+              "p_rope": 1,
+              "p_rival": 0,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 8,
+              "sd_between_splits": 0.047,
+              "sd_between_cohorts": 0.025
+            },
+            "variance": {
+              "focus": 0.095,
+              "rival": 0.874,
+              "diff": -0.779,
+              "se": 0.033,
+              "cohorts": "0-11",
+              "p_focus": 0,
+              "p_rope": 0,
+              "p_rival": 1,
+              "verdict": "rival better",
+              "splits_same_verdict": 10,
+              "sd_between_splits": 0.058,
+              "sd_between_cohorts": 0.109
+            }
+          },
+          "uno_c": {
+            "carss": {
+              "focus": 0.549,
+              "rival": 0.536,
+              "diff": 0.013,
+              "se": 0.014,
+              "cohorts": "8-3",
+              "p_focus": 0.49,
+              "p_rope": 0.455,
+              "p_rival": 0.055,
+              "verdict": "undecided at n=11",
+              "splits_same_verdict": 10,
+              "sd_between_splits": 0.06,
+              "sd_between_cohorts": 0.045
+            },
+            "mim_surv": {
+              "focus": 0.549,
+              "rival": 0.566,
+              "diff": -0.016,
+              "se": 0.006,
+              "cohorts": "1-10",
+              "p_focus": 0,
+              "p_rope": 0.907,
+              "p_rival": 0.093,
+              "verdict": "undecided at n=11",
+              "splits_same_verdict": 10,
+              "sd_between_splits": 0.065,
+              "sd_between_cohorts": 0.02
+            },
+            "mim_surv_q2": {
+              "focus": 0.549,
+              "rival": 0.549,
+              "diff": 0,
+              "se": 0.005,
+              "cohorts": "7-4",
+              "p_focus": 0,
+              "p_rope": 1,
+              "p_rival": 0,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 2,
+              "sd_between_splits": 0.047,
+              "sd_between_cohorts": 0.017
+            },
+            "mrmr": {
+              "focus": 0.549,
+              "rival": 0.559,
+              "diff": -0.009,
+              "se": 0.005,
+              "cohorts": "4-7",
+              "p_focus": 0,
+              "p_rope": 0.967,
+              "p_rival": 0.033,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 0,
+              "sd_between_splits": 0.072,
+              "sd_between_cohorts": 0.018
+            },
+            "mrmr_q2": {
+              "focus": 0.549,
+              "rival": 0.555,
+              "diff": -0.005,
+              "se": 0.004,
+              "cohorts": "5-6",
+              "p_focus": 0,
+              "p_rope": 0.999,
+              "p_rival": 0.001,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 3,
+              "sd_between_splits": 0.05,
+              "sd_between_cohorts": 0.015
+            },
+            "variance": {
+              "focus": 0.549,
+              "rival": 0.525,
+              "diff": 0.024,
+              "se": 0.02,
+              "cohorts": "7-4",
+              "p_focus": 0.862,
+              "p_rope": 0.079,
+              "p_rival": 0.058,
+              "verdict": "undecided at n=11",
+              "splits_same_verdict": 9,
+              "sd_between_splits": 0.06,
+              "sd_between_cohorts": 0.067
+            }
+          },
+          "uno_c_trunc": {
+            "carss": {
+              "focus": 0.561,
+              "rival": 0.54,
+              "diff": 0.021,
+              "se": 0.014,
+              "cohorts": "7-4",
+              "p_focus": 0.612,
+              "p_rope": 0.379,
+              "p_rival": 0.009,
+              "verdict": "undecided at n=11",
+              "splits_same_verdict": 9,
+              "sd_between_splits": 0.047,
+              "sd_between_cohorts": 0.048
+            },
+            "mim_surv": {
+              "focus": 0.561,
+              "rival": 0.574,
+              "diff": -0.013,
+              "se": 0.009,
+              "cohorts": "4-7",
+              "p_focus": 0,
+              "p_rope": 0.837,
+              "p_rival": 0.163,
+              "verdict": "undecided at n=11",
+              "splits_same_verdict": 10,
+              "sd_between_splits": 0.05,
+              "sd_between_cohorts": 0.029
+            },
+            "mim_surv_q2": {
+              "focus": 0.561,
+              "rival": 0.57,
+              "diff": -0.009,
+              "se": 0.004,
+              "cohorts": "3-8",
+              "p_focus": 0,
+              "p_rope": 0.991,
+              "p_rival": 0.009,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 3,
+              "sd_between_splits": 0.032,
+              "sd_between_cohorts": 0.015
+            },
+            "mrmr": {
+              "focus": 0.561,
+              "rival": 0.562,
+              "diff": -0.002,
+              "se": 0.006,
+              "cohorts": "6-5",
+              "p_focus": 0,
+              "p_rope": 0.999,
+              "p_rival": 0.001,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 0,
+              "sd_between_splits": 0.05,
+              "sd_between_cohorts": 0.02
+            },
+            "mrmr_q2": {
+              "focus": 0.561,
+              "rival": 0.562,
+              "diff": -0.002,
+              "se": 0.004,
+              "cohorts": "5-6",
+              "p_focus": 0,
+              "p_rope": 1,
+              "p_rival": 0,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 4,
+              "sd_between_splits": 0.036,
+              "sd_between_cohorts": 0.014
+            },
+            "variance": {
+              "focus": 0.561,
+              "rival": 0.539,
+              "diff": 0.022,
+              "se": 0.023,
+              "cohorts": "8-3",
+              "p_focus": 0.592,
+              "p_rope": 0.362,
+              "p_rival": 0.046,
+              "verdict": "undecided at n=11",
+              "splits_same_verdict": 10,
+              "sd_between_splits": 0.046,
+              "sd_between_cohorts": 0.078
+            }
+          }
+        },
+        "null_fit_share": {
+          "carss": 0.131,
+          "mim_surv": 0.04,
+          "mim_surv_q2": 0.022,
+          "mrmr": 0.036,
+          "mrmr_q2": 0.009,
+          "survfcbf_q2": 0.002,
+          "variance": 0.193
+        }
+      },
+      "K10": {
+        "means": {
+          "uno_c_trunc": {
+            "carss": 0.56,
+            "mim_surv": 0.586,
+            "mim_surv_q2": 0.577,
+            "mrmr": 0.574,
+            "mrmr_q2": 0.573,
+            "survfcbf_q2": 0.572,
+            "variance": 0.543
+          },
+          "uno_c": {
+            "carss": 0.558,
+            "mim_surv": 0.571,
+            "mim_surv_q2": 0.557,
+            "mrmr": 0.567,
+            "mrmr_q2": 0.565,
+            "survfcbf_q2": 0.562,
+            "variance": 0.517
+          },
+          "ibs": {
+            "carss": 0.253,
+            "mim_surv": 0.236,
+            "mim_surv_q2": 0.232,
+            "mrmr": 0.237,
+            "mrmr_q2": 0.237,
+            "survfcbf_q2": 0.235,
+            "variance": 0.268
+          },
+          "stability": {
+            "carss": 0.279,
+            "mim_surv": 0.043,
+            "mim_surv_q2": 0.141,
+            "mrmr": 0.021,
+            "mrmr_q2": 0.108,
+            "survfcbf_q2": 0.105,
+            "variance": 0.908
+          },
+          "parsimony": {
+            "carss": 10,
+            "mim_surv": 10,
+            "mim_surv_q2": 10,
+            "mrmr": 10,
+            "mrmr_q2": 10,
+            "survfcbf_q2": 10,
+            "variance": 10
+          }
+        },
+        "inference": {
+          "stability": {
+            "carss": {
+              "focus": 0.105,
+              "rival": 0.279,
+              "diff": -0.174,
+              "se": 0.019,
+              "cohorts": "0-11",
+              "p_focus": 0,
+              "p_rope": 0,
+              "p_rival": 1,
+              "verdict": "rival better",
+              "splits_same_verdict": 10,
+              "sd_between_splits": 0.053,
+              "sd_between_cohorts": 0.064
+            },
+            "mim_surv": {
+              "focus": 0.105,
+              "rival": 0.043,
+              "diff": 0.062,
+              "se": 0.015,
+              "cohorts": "10-1",
+              "p_focus": 0.875,
+              "p_rope": 0.125,
+              "p_rival": 0,
+              "verdict": "undecided at n=11",
+              "splits_same_verdict": 7,
+              "sd_between_splits": 0.037,
+              "sd_between_cohorts": 0.049
+            },
+            "mim_surv_q2": {
+              "focus": 0.105,
+              "rival": 0.141,
+              "diff": -0.035,
+              "se": 0.01,
+              "cohorts": "2-9",
+              "p_focus": 0,
+              "p_rope": 0.87,
+              "p_rival": 0.13,
+              "verdict": "undecided at n=11",
+              "splits_same_verdict": 7,
+              "sd_between_splits": 0.048,
+              "sd_between_cohorts": 0.034
+            },
+            "mrmr": {
+              "focus": 0.105,
+              "rival": 0.021,
+              "diff": 0.084,
+              "se": 0.009,
+              "cohorts": "11-0",
+              "p_focus": 0.998,
+              "p_rope": 0.002,
+              "p_rival": 0,
+              "verdict": "survfcbf better",
+              "splits_same_verdict": 9,
+              "sd_between_splits": 0.036,
+              "sd_between_cohorts": 0.029
+            },
+            "mrmr_q2": {
+              "focus": 0.105,
+              "rival": 0.108,
+              "diff": -0.003,
+              "se": 0.005,
+              "cohorts": "6-5",
+              "p_focus": 0,
+              "p_rope": 1,
+              "p_rival": 0,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 10,
+              "sd_between_splits": 0.035,
+              "sd_between_cohorts": 0.015
+            },
+            "variance": {
+              "focus": 0.105,
+              "rival": 0.908,
+              "diff": -0.803,
+              "se": 0.015,
+              "cohorts": "0-11",
+              "p_focus": 0,
+              "p_rope": 0,
+              "p_rival": 1,
+              "verdict": "rival better",
+              "splits_same_verdict": 10,
+              "sd_between_splits": 0.048,
+              "sd_between_cohorts": 0.051
+            }
+          },
+          "uno_c": {
+            "carss": {
+              "focus": 0.562,
+              "rival": 0.558,
+              "diff": 0.005,
+              "se": 0.01,
+              "cohorts": "5-6",
+              "p_focus": 0.108,
+              "p_rope": 0.875,
+              "p_rival": 0.017,
+              "verdict": "undecided at n=11",
+              "splits_same_verdict": 10,
+              "sd_between_splits": 0.04,
+              "sd_between_cohorts": 0.035
+            },
+            "mim_surv": {
+              "focus": 0.562,
+              "rival": 0.571,
+              "diff": -0.009,
+              "se": 0.005,
+              "cohorts": "4-7",
+              "p_focus": 0,
+              "p_rope": 0.985,
+              "p_rival": 0.015,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 0,
+              "sd_between_splits": 0.065,
+              "sd_between_cohorts": 0.017
+            },
+            "mim_surv_q2": {
+              "focus": 0.562,
+              "rival": 0.557,
+              "diff": 0.005,
+              "se": 0.007,
+              "cohorts": "7-4",
+              "p_focus": 0.021,
+              "p_rope": 0.979,
+              "p_rival": 0,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 1,
+              "sd_between_splits": 0.04,
+              "sd_between_cohorts": 0.023
+            },
+            "mrmr": {
+              "focus": 0.562,
+              "rival": 0.567,
+              "diff": -0.005,
+              "se": 0.005,
+              "cohorts": "3-8",
+              "p_focus": 0,
+              "p_rope": 1,
+              "p_rival": 0,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 0,
+              "sd_between_splits": 0.066,
+              "sd_between_cohorts": 0.016
+            },
+            "mrmr_q2": {
+              "focus": 0.562,
+              "rival": 0.565,
+              "diff": -0.003,
+              "se": 0.003,
+              "cohorts": "5-6",
+              "p_focus": 0,
+              "p_rope": 1,
+              "p_rival": 0,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 3,
+              "sd_between_splits": 0.041,
+              "sd_between_cohorts": 0.01
+            },
+            "variance": {
+              "focus": 0.562,
+              "rival": 0.517,
+              "diff": 0.045,
+              "se": 0.013,
+              "cohorts": "10-1",
+              "p_focus": 0.961,
+              "p_rope": 0.039,
+              "p_rival": 0,
+              "verdict": "survfcbf better",
+              "splits_same_verdict": 6,
+              "sd_between_splits": 0.05,
+              "sd_between_cohorts": 0.043
+            }
+          },
+          "uno_c_trunc": {
+            "carss": {
+              "focus": 0.572,
+              "rival": 0.56,
+              "diff": 0.012,
+              "se": 0.008,
+              "cohorts": "8-3",
+              "p_focus": 0.181,
+              "p_rope": 0.819,
+              "p_rival": 0,
+              "verdict": "undecided at n=11",
+              "splits_same_verdict": 10,
+              "sd_between_splits": 0.045,
+              "sd_between_cohorts": 0.027
+            },
+            "mim_surv": {
+              "focus": 0.572,
+              "rival": 0.586,
+              "diff": -0.014,
+              "se": 0.008,
+              "cohorts": "4-7",
+              "p_focus": 0,
+              "p_rope": 0.886,
+              "p_rival": 0.114,
+              "verdict": "undecided at n=11",
+              "splits_same_verdict": 10,
+              "sd_between_splits": 0.049,
+              "sd_between_cohorts": 0.028
+            },
+            "mim_surv_q2": {
+              "focus": 0.572,
+              "rival": 0.577,
+              "diff": -0.006,
+              "se": 0.004,
+              "cohorts": "4-7",
+              "p_focus": 0,
+              "p_rope": 0.999,
+              "p_rival": 0.001,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 2,
+              "sd_between_splits": 0.036,
+              "sd_between_cohorts": 0.014
+            },
+            "mrmr": {
+              "focus": 0.572,
+              "rival": 0.574,
+              "diff": -0.003,
+              "se": 0.007,
+              "cohorts": "6-5",
+              "p_focus": 0,
+              "p_rope": 0.989,
+              "p_rival": 0.012,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 0,
+              "sd_between_splits": 0.051,
+              "sd_between_cohorts": 0.022
+            },
+            "mrmr_q2": {
+              "focus": 0.572,
+              "rival": 0.573,
+              "diff": -0.002,
+              "se": 0.003,
+              "cohorts": "5-6",
+              "p_focus": 0,
+              "p_rope": 1,
+              "p_rival": 0,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 4,
+              "sd_between_splits": 0.031,
+              "sd_between_cohorts": 0.008
+            },
+            "variance": {
+              "focus": 0.572,
+              "rival": 0.543,
+              "diff": 0.029,
+              "se": 0.018,
+              "cohorts": "8-3",
+              "p_focus": 0.786,
+              "p_rope": 0.181,
+              "p_rival": 0.033,
+              "verdict": "undecided at n=11",
+              "splits_same_verdict": 9,
+              "sd_between_splits": 0.04,
+              "sd_between_cohorts": 0.061
+            }
+          }
+        },
+        "null_fit_share": {
+          "carss": 0.089,
+          "mim_surv": 0.015,
+          "mim_surv_q2": 0.02,
+          "mrmr": 0.02,
+          "mrmr_q2": 0,
+          "survfcbf_q2": 0,
+          "variance": 0.124
+        }
+      },
+      "K20": {
+        "means": {
+          "uno_c_trunc": {
+            "carss": 0.571,
+            "mim_surv": 0.593,
+            "mim_surv_q2": 0.582,
+            "mrmr": 0.585,
+            "mrmr_q2": 0.585,
+            "survfcbf_q2": 0.579,
+            "variance": 0.562
+          },
+          "uno_c": {
+            "carss": 0.574,
+            "mim_surv": 0.581,
+            "mim_surv_q2": 0.569,
+            "mrmr": 0.58,
+            "mrmr_q2": 0.578,
+            "survfcbf_q2": 0.567,
+            "variance": 0.533
+          },
+          "ibs": {
+            "carss": 0.243,
+            "mim_surv": 0.236,
+            "mim_surv_q2": 0.231,
+            "mrmr": 0.234,
+            "mrmr_q2": 0.234,
+            "survfcbf_q2": 0.231,
+            "variance": 0.263
+          },
+          "stability": {
+            "carss": 0.295,
+            "mim_surv": 0.055,
+            "mim_surv_q2": 0.152,
+            "mrmr": 0.031,
+            "mrmr_q2": 0.145,
+            "survfcbf_q2": 0.107,
+            "variance": 0.91
+          },
+          "parsimony": {
+            "carss": 20,
+            "mim_surv": 20,
+            "mim_surv_q2": 20,
+            "mrmr": 20,
+            "mrmr_q2": 20,
+            "survfcbf_q2": 19.411,
+            "variance": 20
+          }
+        },
+        "inference": {
+          "stability": {
+            "carss": {
+              "focus": 0.107,
+              "rival": 0.295,
+              "diff": -0.187,
+              "se": 0.016,
+              "cohorts": "0-11",
+              "p_focus": 0,
+              "p_rope": 0,
+              "p_rival": 1,
+              "verdict": "rival better",
+              "splits_same_verdict": 10,
+              "sd_between_splits": 0.038,
+              "sd_between_cohorts": 0.054
+            },
+            "mim_surv": {
+              "focus": 0.107,
+              "rival": 0.055,
+              "diff": 0.053,
+              "se": 0.016,
+              "cohorts": "9-2",
+              "p_focus": 0.632,
+              "p_rope": 0.368,
+              "p_rival": 0,
+              "verdict": "undecided at n=11",
+              "splits_same_verdict": 10,
+              "sd_between_splits": 0.029,
+              "sd_between_cohorts": 0.052
+            },
+            "mim_surv_q2": {
+              "focus": 0.107,
+              "rival": 0.152,
+              "diff": -0.045,
+              "se": 0.009,
+              "cohorts": "0-11",
+              "p_focus": 0,
+              "p_rope": 0.807,
+              "p_rival": 0.193,
+              "verdict": "undecided at n=11",
+              "splits_same_verdict": 9,
+              "sd_between_splits": 0.036,
+              "sd_between_cohorts": 0.029
+            },
+            "mrmr": {
+              "focus": 0.107,
+              "rival": 0.031,
+              "diff": 0.077,
+              "se": 0.008,
+              "cohorts": "11-0",
+              "p_focus": 0.994,
+              "p_rope": 0.006,
+              "p_rival": 0,
+              "verdict": "survfcbf better",
+              "splits_same_verdict": 7,
+              "sd_between_splits": 0.029,
+              "sd_between_cohorts": 0.027
+            },
+            "mrmr_q2": {
+              "focus": 0.107,
+              "rival": 0.145,
+              "diff": -0.038,
+              "se": 0.006,
+              "cohorts": "0-11",
+              "p_focus": 0,
+              "p_rope": 0.975,
+              "p_rival": 0.025,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 4,
+              "sd_between_splits": 0.03,
+              "sd_between_cohorts": 0.021
+            },
+            "variance": {
+              "focus": 0.107,
+              "rival": 0.91,
+              "diff": -0.803,
+              "se": 0.009,
+              "cohorts": "0-11",
+              "p_focus": 0,
+              "p_rope": 0,
+              "p_rival": 1,
+              "verdict": "rival better",
+              "splits_same_verdict": 10,
+              "sd_between_splits": 0.032,
+              "sd_between_cohorts": 0.029
+            }
+          },
+          "uno_c": {
+            "carss": {
+              "focus": 0.567,
+              "rival": 0.574,
+              "diff": -0.007,
+              "se": 0.006,
+              "cohorts": "5-6",
+              "p_focus": 0,
+              "p_rope": 0.988,
+              "p_rival": 0.012,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 0,
+              "sd_between_splits": 0.053,
+              "sd_between_cohorts": 0.021
+            },
+            "mim_surv": {
+              "focus": 0.567,
+              "rival": 0.581,
+              "diff": -0.015,
+              "se": 0.005,
+              "cohorts": "2-9",
+              "p_focus": 0,
+              "p_rope": 0.853,
+              "p_rival": 0.147,
+              "verdict": "undecided at n=11",
+              "splits_same_verdict": 9,
+              "sd_between_splits": 0.068,
+              "sd_between_cohorts": 0.017
+            },
+            "mim_surv_q2": {
+              "focus": 0.567,
+              "rival": 0.569,
+              "diff": -0.002,
+              "se": 0.009,
+              "cohorts": "7-4",
+              "p_focus": 0.01,
+              "p_rope": 0.971,
+              "p_rival": 0.019,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 0,
+              "sd_between_splits": 0.046,
+              "sd_between_cohorts": 0.029
+            },
+            "mrmr": {
+              "focus": 0.567,
+              "rival": 0.58,
+              "diff": -0.013,
+              "se": 0.005,
+              "cohorts": "1-10",
+              "p_focus": 0,
+              "p_rope": 0.955,
+              "p_rival": 0.045,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 0,
+              "sd_between_splits": 0.069,
+              "sd_between_cohorts": 0.016
+            },
+            "mrmr_q2": {
+              "focus": 0.567,
+              "rival": 0.578,
+              "diff": -0.011,
+              "se": 0.004,
+              "cohorts": "2-9",
+              "p_focus": 0,
+              "p_rope": 0.989,
+              "p_rival": 0.011,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 1,
+              "sd_between_splits": 0.039,
+              "sd_between_cohorts": 0.013
+            },
+            "variance": {
+              "focus": 0.567,
+              "rival": 0.533,
+              "diff": 0.034,
+              "se": 0.013,
+              "cohorts": "10-1",
+              "p_focus": 0.787,
+              "p_rope": 0.213,
+              "p_rival": 0,
+              "verdict": "undecided at n=11",
+              "splits_same_verdict": 7,
+              "sd_between_splits": 0.056,
+              "sd_between_cohorts": 0.042
+            }
+          },
+          "uno_c_trunc": {
+            "carss": {
+              "focus": 0.579,
+              "rival": 0.571,
+              "diff": 0.008,
+              "se": 0.007,
+              "cohorts": "5-6",
+              "p_focus": 0.021,
+              "p_rope": 0.979,
+              "p_rival": 0,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 0,
+              "sd_between_splits": 0.038,
+              "sd_between_cohorts": 0.023
+            },
+            "mim_surv": {
+              "focus": 0.579,
+              "rival": 0.593,
+              "diff": -0.014,
+              "se": 0.009,
+              "cohorts": "3-8",
+              "p_focus": 0,
+              "p_rope": 0.83,
+              "p_rival": 0.17,
+              "verdict": "undecided at n=11",
+              "splits_same_verdict": 10,
+              "sd_between_splits": 0.042,
+              "sd_between_cohorts": 0.03
+            },
+            "mim_surv_q2": {
+              "focus": 0.579,
+              "rival": 0.582,
+              "diff": -0.003,
+              "se": 0.005,
+              "cohorts": "5-6",
+              "p_focus": 0,
+              "p_rope": 1,
+              "p_rival": 0,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 0,
+              "sd_between_splits": 0.037,
+              "sd_between_cohorts": 0.016
+            },
+            "mrmr": {
+              "focus": 0.579,
+              "rival": 0.585,
+              "diff": -0.006,
+              "se": 0.007,
+              "cohorts": "5-6",
+              "p_focus": 0,
+              "p_rope": 0.978,
+              "p_rival": 0.022,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 0,
+              "sd_between_splits": 0.043,
+              "sd_between_cohorts": 0.022
+            },
+            "mrmr_q2": {
+              "focus": 0.579,
+              "rival": 0.585,
+              "diff": -0.006,
+              "se": 0.004,
+              "cohorts": "3-8",
+              "p_focus": 0,
+              "p_rope": 0.999,
+              "p_rival": 0.001,
+              "verdict": "practically equivalent",
+              "splits_same_verdict": 2,
+              "sd_between_splits": 0.029,
+              "sd_between_cohorts": 0.012
+            },
+            "variance": {
+              "focus": 0.579,
+              "rival": 0.562,
+              "diff": 0.017,
+              "se": 0.015,
+              "cohorts": "6-5",
+              "p_focus": 0.485,
+              "p_rope": 0.498,
+              "p_rival": 0.017,
+              "verdict": "undecided at n=11",
+              "splits_same_verdict": 10,
+              "sd_between_splits": 0.036,
+              "sd_between_cohorts": 0.049
+            }
+          }
+        },
+        "null_fit_share": {
+          "carss": 0.064,
+          "mim_surv": 0.011,
+          "mim_surv_q2": 0.009,
+          "mrmr": 0.004,
+          "mrmr_q2": 0,
+          "survfcbf_q2": 0,
+          "variance": 0.115
+        }
+      },
+      "range_trunc": {
+        "variance": [0.017, 0.029],
+        "carss": [0.008, 0.021],
+        "mim_surv": [-0.014, -0.013],
+        "mrmr": [-0.006, -0.002],
+        "mim_surv_q2": [-0.009, -0.003],
+        "mrmr_q2": [-0.006, -0.002]
+      },
+      "verdicts_trunc": {
+        "variance": ["undecided at n=11", "undecided at n=11", "undecided at n=11"],
+        "carss": ["undecided at n=11", "undecided at n=11", "practically equivalent"],
+        "mim_surv": ["undecided at n=11", "undecided at n=11", "undecided at n=11"],
+        "mrmr": ["practically equivalent", "practically equivalent", "practically equivalent"],
+        "mim_surv_q2": ["practically equivalent", "practically equivalent", "practically equivalent"],
+        "mrmr_q2": ["practically equivalent", "practically equivalent", "practically equivalent"]
+      },
+      "range_stability": {
+        "variance": [-0.803, -0.779],
+        "carss": [-0.187, -0.166],
+        "mim_surv": [0.053, 0.064],
+        "mrmr": [0.077, 0.084],
+        "mim_surv_q2": [-0.045, -0.033],
+        "mrmr_q2": [-0.038, 0.014]
+      },
+      "verdicts_stability": {
+        "variance": ["rival better", "rival better", "rival better"],
+        "carss": ["rival better", "rival better", "rival better"],
+        "mim_surv": ["undecided at n=11", "undecided at n=11", "undecided at n=11"],
+        "mrmr": ["survfcbf better", "survfcbf better", "survfcbf better"],
+        "mim_surv_q2": ["undecided at n=11", "undecided at n=11", "undecided at n=11"],
+        "mrmr_q2": ["practically equivalent", "practically equivalent", "practically equivalent"]
+      },
+      "rope_sensitivity": {
+        "K5": {
+          "argmax": {
+            "stability": {
+              "carss": {
+                "rope_0.03": "rival better",
+                "rope_0.05": "rival better",
+                "rope_0.07": "rival better"
+              },
+              "mim_surv": {
+                "rope_0.03": "survfcbf better",
+                "rope_0.05": "undecided at n=11",
+                "rope_0.07": "undecided at n=11"
+              },
+              "mim_surv_q2": {
+                "rope_0.03": "undecided at n=11",
+                "rope_0.05": "undecided at n=11",
+                "rope_0.07": "practically equivalent"
+              },
+              "mrmr": {
+                "rope_0.03": "survfcbf better",
+                "rope_0.05": "survfcbf better",
+                "rope_0.07": "undecided at n=11"
+              },
+              "mrmr_q2": {
+                "rope_0.03": "practically equivalent",
+                "rope_0.05": "practically equivalent",
+                "rope_0.07": "practically equivalent"
+              },
+              "variance": {
+                "rope_0.03": "rival better",
+                "rope_0.05": "rival better",
+                "rope_0.07": "rival better"
+              }
+            },
+            "uno_c_trunc": {
+              "carss": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "undecided at n=11"
+              },
+              "mim_surv": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "practically equivalent"
+              },
+              "mim_surv_q2": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "practically equivalent",
+                "rope_0.03": "practically equivalent"
+              },
+              "mrmr": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "practically equivalent",
+                "rope_0.03": "practically equivalent"
+              },
+              "mrmr_q2": {
+                "rope_0.01": "practically equivalent",
+                "rope_0.02": "practically equivalent",
+                "rope_0.03": "practically equivalent"
+              },
+              "variance": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "undecided at n=11"
+              }
+            }
+          },
+          "mean": {
+            "stability": {
+              "carss": {
+                "rope_0.03": "rival better",
+                "rope_0.05": "undecided at n=11",
+                "rope_0.07": "undecided at n=11"
+              },
+              "mim_surv": {
+                "rope_0.03": "undecided at n=11",
+                "rope_0.05": "undecided at n=11",
+                "rope_0.07": "undecided at n=11"
+              },
+              "mim_surv_q2": {
+                "rope_0.03": "undecided at n=11",
+                "rope_0.05": "undecided at n=11",
+                "rope_0.07": "undecided at n=11"
+              },
+              "mrmr": {
+                "rope_0.03": "survfcbf better",
+                "rope_0.05": "undecided at n=11",
+                "rope_0.07": "undecided at n=11"
+              },
+              "mrmr_q2": {
+                "rope_0.03": "undecided at n=11",
+                "rope_0.05": "practically equivalent",
+                "rope_0.07": "practically equivalent"
+              },
+              "variance": {
+                "rope_0.03": "rival better",
+                "rope_0.05": "rival better",
+                "rope_0.07": "rival better"
+              }
+            },
+            "uno_c_trunc": {
+              "carss": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "undecided at n=11"
+              },
+              "mim_surv": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "undecided at n=11"
+              },
+              "mim_surv_q2": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "practically equivalent"
+              },
+              "mrmr": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "practically equivalent"
+              },
+              "mrmr_q2": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "practically equivalent",
+                "rope_0.03": "practically equivalent"
+              },
+              "variance": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "undecided at n=11"
+              }
+            }
+          }
+        },
+        "K10": {
+          "argmax": {
+            "stability": {
+              "carss": {
+                "rope_0.03": "rival better",
+                "rope_0.05": "rival better",
+                "rope_0.07": "rival better"
+              },
+              "mim_surv": {
+                "rope_0.03": "survfcbf better",
+                "rope_0.05": "undecided at n=11",
+                "rope_0.07": "undecided at n=11"
+              },
+              "mim_surv_q2": {
+                "rope_0.03": "undecided at n=11",
+                "rope_0.05": "undecided at n=11",
+                "rope_0.07": "practically equivalent"
+              },
+              "mrmr": {
+                "rope_0.03": "survfcbf better",
+                "rope_0.05": "survfcbf better",
+                "rope_0.07": "undecided at n=11"
+              },
+              "mrmr_q2": {
+                "rope_0.03": "practically equivalent",
+                "rope_0.05": "practically equivalent",
+                "rope_0.07": "practically equivalent"
+              },
+              "variance": {
+                "rope_0.03": "rival better",
+                "rope_0.05": "rival better",
+                "rope_0.07": "rival better"
+              }
+            },
+            "uno_c_trunc": {
+              "carss": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "practically equivalent"
+              },
+              "mim_surv": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "practically equivalent"
+              },
+              "mim_surv_q2": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "practically equivalent",
+                "rope_0.03": "practically equivalent"
+              },
+              "mrmr": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "practically equivalent",
+                "rope_0.03": "practically equivalent"
+              },
+              "mrmr_q2": {
+                "rope_0.01": "practically equivalent",
+                "rope_0.02": "practically equivalent",
+                "rope_0.03": "practically equivalent"
+              },
+              "variance": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "undecided at n=11"
+              }
+            }
+          },
+          "mean": {
+            "stability": {
+              "carss": {
+                "rope_0.03": "rival better",
+                "rope_0.05": "rival better",
+                "rope_0.07": "rival better"
+              },
+              "mim_surv": {
+                "rope_0.03": "undecided at n=11",
+                "rope_0.05": "undecided at n=11",
+                "rope_0.07": "undecided at n=11"
+              },
+              "mim_surv_q2": {
+                "rope_0.03": "undecided at n=11",
+                "rope_0.05": "undecided at n=11",
+                "rope_0.07": "undecided at n=11"
+              },
+              "mrmr": {
+                "rope_0.03": "survfcbf better",
+                "rope_0.05": "undecided at n=11",
+                "rope_0.07": "undecided at n=11"
+              },
+              "mrmr_q2": {
+                "rope_0.03": "practically equivalent",
+                "rope_0.05": "practically equivalent",
+                "rope_0.07": "practically equivalent"
+              },
+              "variance": {
+                "rope_0.03": "rival better",
+                "rope_0.05": "rival better",
+                "rope_0.07": "rival better"
+              }
+            },
+            "uno_c_trunc": {
+              "carss": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "undecided at n=11"
+              },
+              "mim_surv": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "undecided at n=11"
+              },
+              "mim_surv_q2": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "practically equivalent"
+              },
+              "mrmr": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "undecided at n=11"
+              },
+              "mrmr_q2": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "practically equivalent",
+                "rope_0.03": "practically equivalent"
+              },
+              "variance": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "undecided at n=11"
+              }
+            }
+          }
+        },
+        "K20": {
+          "argmax": {
+            "stability": {
+              "carss": {
+                "rope_0.03": "rival better",
+                "rope_0.05": "rival better",
+                "rope_0.07": "rival better"
+              },
+              "mim_surv": {
+                "rope_0.03": "undecided at n=11",
+                "rope_0.05": "undecided at n=11",
+                "rope_0.07": "undecided at n=11"
+              },
+              "mim_surv_q2": {
+                "rope_0.03": "undecided at n=11",
+                "rope_0.05": "undecided at n=11",
+                "rope_0.07": "practically equivalent"
+              },
+              "mrmr": {
+                "rope_0.03": "survfcbf better",
+                "rope_0.05": "survfcbf better",
+                "rope_0.07": "undecided at n=11"
+              },
+              "mrmr_q2": {
+                "rope_0.03": "undecided at n=11",
+                "rope_0.05": "practically equivalent",
+                "rope_0.07": "practically equivalent"
+              },
+              "variance": {
+                "rope_0.03": "rival better",
+                "rope_0.05": "rival better",
+                "rope_0.07": "rival better"
+              }
+            },
+            "uno_c_trunc": {
+              "carss": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "practically equivalent",
+                "rope_0.03": "practically equivalent"
+              },
+              "mim_surv": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "practically equivalent"
+              },
+              "mim_surv_q2": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "practically equivalent",
+                "rope_0.03": "practically equivalent"
+              },
+              "mrmr": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "practically equivalent",
+                "rope_0.03": "practically equivalent"
+              },
+              "mrmr_q2": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "practically equivalent",
+                "rope_0.03": "practically equivalent"
+              },
+              "variance": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "undecided at n=11"
+              }
+            }
+          },
+          "mean": {
+            "stability": {
+              "carss": {
+                "rope_0.03": "rival better",
+                "rope_0.05": "rival better",
+                "rope_0.07": "rival better"
+              },
+              "mim_surv": {
+                "rope_0.03": "undecided at n=11",
+                "rope_0.05": "undecided at n=11",
+                "rope_0.07": "undecided at n=11"
+              },
+              "mim_surv_q2": {
+                "rope_0.03": "undecided at n=11",
+                "rope_0.05": "undecided at n=11",
+                "rope_0.07": "undecided at n=11"
+              },
+              "mrmr": {
+                "rope_0.03": "survfcbf better",
+                "rope_0.05": "undecided at n=11",
+                "rope_0.07": "undecided at n=11"
+              },
+              "mrmr_q2": {
+                "rope_0.03": "undecided at n=11",
+                "rope_0.05": "undecided at n=11",
+                "rope_0.07": "practically equivalent"
+              },
+              "variance": {
+                "rope_0.03": "rival better",
+                "rope_0.05": "rival better",
+                "rope_0.07": "rival better"
+              }
+            },
+            "uno_c_trunc": {
+              "carss": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "undecided at n=11"
+              },
+              "mim_surv": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "undecided at n=11"
+              },
+              "mim_surv_q2": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "practically equivalent"
+              },
+              "mrmr": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "undecided at n=11"
+              },
+              "mrmr_q2": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "practically equivalent"
+              },
+              "variance": {
+                "rope_0.01": "undecided at n=11",
+                "rope_0.02": "undecided at n=11",
+                "rope_0.03": "undecided at n=11"
+              }
+            }
+          }
+        }
+      }
+    },
+    "metabric": {
+      "means": {
+        "uno_c_trunc": {
+          "carss": 0.627,
+          "mim_surv": 0.63,
+          "survfcbf_topk": 0.583,
+          "variance": 0.632
+        },
+        "uno_c": {
+          "carss": 0.601,
+          "mim_surv": 0.629,
+          "survfcbf_topk": 0.552,
+          "variance": 0.614
+        },
+        "ibs": {
+          "carss": 0.177,
+          "mim_surv": 0.175,
+          "survfcbf_topk": 0.187,
+          "variance": 0.174
+        },
+        "stability": {
+          "carss": 0.413,
+          "mim_surv": 0.593,
+          "survfcbf_topk": 0.149,
+          "variance": 0.977
+        }
+      },
+      "gap_trunc": {
+        "variance": {
+          "diff": -0.049,
+          "sd": 0.006,
+          "min": -0.063,
+          "max": -0.043,
+          "splits_topk_worse": 10
+        },
+        "carss": {
+          "diff": -0.044,
+          "sd": 0.007,
+          "min": -0.057,
+          "max": -0.033,
+          "splits_topk_worse": 10
+        },
+        "mim_surv": {
+          "diff": -0.047,
+          "sd": 0.006,
+          "min": -0.061,
+          "max": -0.04,
+          "splits_topk_worse": 10
+        }
+      },
+      "gap_untrunc": {
+        "variance": {
+          "diff": -0.062,
+          "sd": 0.058,
+          "min": -0.218,
+          "max": -0.021,
+          "splits_topk_worse": 10
+        },
+        "carss": {
+          "diff": -0.049,
+          "sd": 0.06,
+          "min": -0.214,
+          "max": 0.003,
+          "splits_topk_worse": 9
+        },
+        "mim_surv": {
+          "diff": -0.077,
+          "sd": 0.071,
+          "min": -0.22,
+          "max": -0.021,
+          "splits_topk_worse": 10
+        }
+      },
+      "gap_ibs": {
+        "variance": {
+          "diff": 0.012,
+          "sd": 0.001,
+          "min": 0.01,
+          "max": 0.015,
+          "splits_topk_worse": 10
+        },
+        "carss": {
+          "diff": 0.01,
+          "sd": 0.001,
+          "min": 0.007,
+          "max": 0.013,
+          "splits_topk_worse": 10
+        },
+        "mim_surv": {
+          "diff": 0.011,
+          "sd": 0.001,
+          "min": 0.01,
+          "max": 0.013,
+          "splits_topk_worse": 10
+        }
+      },
+      "split1_max_abs_c_diff_vs_published": 0.0042
+    },
+    "untruncated_off": {
+      "folds": 1265,
+      "share_gap_over_0.10": 0.185,
+      "share_gap_over_0.20": 0.059
+    }
+  },
+  "power": {
+    "sigma": {
+      "headline": {
+        "sigma": 0.038,
+        "sd_min": 0.036,
+        "sd_max": 0.041,
+        "n_pairs": 3,
+        "delta_80_n11": 0.032,
+        "delta_90_n11": 0.037
+      },
+      "matched": {
+        "sigma": 0.03,
+        "sd_min": 0.023,
+        "sd_max": 0.078,
+        "n_pairs": 9,
+        "delta_80_n11": 0.025,
+        "delta_90_n11": 0.029
+      }
+    },
+    "datasets_needed_80": {
+      "headline": {
+        "delta_0.01": 115,
+        "delta_0.02": 29,
+        "delta_0.03": 13,
+        "delta_0.05": 5,
+        "delta_0.1": 2
+      },
+      "matched": {
+        "delta_0.01": 70,
+        "delta_0.02": 18,
+        "delta_0.03": 8,
+        "delta_0.05": 3,
+        "delta_0.1": 1
+      }
+    },
+    "datasets_needed_90": {
+      "headline": {
+        "delta_0.01": 154,
+        "delta_0.02": 39,
+        "delta_0.03": 18,
+        "delta_0.05": 7,
+        "delta_0.1": 2
+      },
+      "matched": {
+        "delta_0.01": 94,
+        "delta_0.02": 24,
+        "delta_0.03": 11,
+        "delta_0.05": 4,
+        "delta_0.1": 1
+      }
+    },
+    "datasets_needed_80_pessimistic": {
+      "headline": {
+        "delta_0.01": 129,
+        "delta_0.02": 33,
+        "delta_0.03": 15,
+        "delta_0.05": 6,
+        "delta_0.1": 2
+      },
+      "matched": {
+        "delta_0.01": 475,
+        "delta_0.02": 119,
+        "delta_0.03": 53,
+        "delta_0.05": 19,
+        "delta_0.1": 5
+      }
+    },
+    "bayes_p95_power_n11": {
+      "headline": {
+        "delta_0.03": 0.206,
+        "delta_0.05": 0.788,
+        "delta_0.08": 1,
+        "delta_0.12": 1
+      },
+      "matched": {
+        "delta_0.03": 0.28,
+        "delta_0.05": 0.912,
+        "delta_0.08": 1,
+        "delta_0.12": 1
+      }
+    },
+    "reps": 500,
+    "legacy_sd_median": 0.05
+  },
+  "cardinality": {
+    "uno_c_by_K": {
+      "carss": {
+        "K5": 0.53,
+        "K10": 0.544,
+        "K20": 0.561,
+        "K50": 0.583,
+        "K100": 0.596,
+        "K500": 0.603,
+        "K2000": 0.606
+      },
+      "mim_surv": {
+        "K5": 0.578,
+        "K10": 0.582,
+        "K20": 0.588,
+        "K50": 0.604,
+        "K100": 0.6,
+        "K500": 0.606,
+        "K2000": 0.602
+      },
+      "survfcbf": {
+        "K5": 0.542,
+        "K10": 0.548,
+        "K20": 0.566,
+        "K50": 0.576,
+        "K100": 0.575
+      },
+      "variance": {
+        "K5": 0.524,
+        "K10": 0.523,
+        "K20": 0.535,
+        "K50": 0.547,
+        "K100": 0.564,
+        "K500": 0.598,
+        "K2000": 0.603
+      }
+    },
+    "stability_by_K": {
+      "carss": {
+        "K5": 0.243,
+        "K10": 0.269,
+        "K20": 0.295,
+        "K50": 0.313,
+        "K100": 0.328,
+        "K500": 0.372,
+        "K2000": 0.404
+      },
+      "mim_surv": {
+        "K5": 0.04,
+        "K10": 0.057,
+        "K20": 0.063,
+        "K50": 0.087,
+        "K100": 0.104,
+        "K500": 0.155,
+        "K2000": 0.211
+      },
+      "survfcbf": {
+        "K5": 0.076,
+        "K10": 0.09,
+        "K20": 0.102,
+        "K50": 0.101,
+        "K100": 0.101
+      },
+      "variance": {
+        "K5": 0.884,
+        "K10": 0.905,
+        "K20": 0.921,
+        "K50": 0.92,
+        "K100": 0.923,
+        "K500": 0.932,
+        "K2000": 0.951
+      }
+    },
+    "vs_variance": {
+      "5": {
+        "diff": 0.018,
+        "se": 0.025,
+        "cohorts": "6-5",
+        "p_rival": 0.139,
+        "verdict": "undecided at n=11"
+      },
+      "10": {
+        "diff": 0.025,
+        "se": 0.019,
+        "cohorts": "7-4",
+        "p_rival": 0.071,
+        "verdict": "undecided at n=11"
+      },
+      "20": {
+        "diff": 0.03,
+        "se": 0.01,
+        "cohorts": "9-2",
+        "p_rival": 0,
+        "verdict": "undecided at n=11"
+      },
+      "50": {
+        "diff": 0.029,
+        "se": 0.015,
+        "cohorts": "9-2",
+        "p_rival": 0.01,
+        "verdict": "undecided at n=11"
+      },
+      "100": {
+        "diff": 0.011,
+        "se": 0.018,
+        "cohorts": "5-6",
+        "p_rival": 0.131,
+        "verdict": "undecided at n=11"
+      }
+    },
+    "vs_mim_surv": {
+      "5": {
+        "diff": -0.037,
+        "se": 0.019,
+        "cohorts": "3-8",
+        "p_rival": 0.646,
+        "verdict": "undecided at n=11"
+      },
+      "10": {
+        "diff": -0.034,
+        "se": 0.023,
+        "cohorts": "4-7",
+        "p_rival": 0.757,
+        "verdict": "undecided at n=11"
+      },
+      "20": {
+        "diff": -0.022,
+        "se": 0.02,
+        "cohorts": "4-7",
+        "p_rival": 0.665,
+        "verdict": "undecided at n=11"
+      },
+      "50": {
+        "diff": -0.028,
+        "se": 0.016,
+        "cohorts": "3-8",
+        "p_rival": 0.776,
+        "verdict": "undecided at n=11"
+      },
+      "100": {
+        "diff": -0.025,
+        "se": 0.014,
+        "cohorts": "2-9",
+        "p_rival": 0.533,
+        "verdict": "undecided at n=11"
+      }
+    },
+    "vs_carss": {
+      "5": {
+        "diff": 0.012,
+        "se": 0.015,
+        "cohorts": "6-5",
+        "p_rival": 0.036,
+        "verdict": "undecided at n=11"
+      },
+      "10": {
+        "diff": 0.004,
+        "se": 0.012,
+        "cohorts": "5-6",
+        "p_rival": 0.041,
+        "verdict": "undecided at n=11"
+      },
+      "20": {
+        "diff": 0.005,
+        "se": 0.01,
+        "cohorts": "6-5",
+        "p_rival": 0.029,
+        "verdict": "undecided at n=11"
+      },
+      "50": {
+        "diff": -0.007,
+        "se": 0.026,
+        "cohorts": "4-7",
+        "p_rival": 0.608,
+        "verdict": "undecided at n=11"
+      },
+      "100": {
+        "diff": -0.02,
+        "se": 0.018,
+        "cohorts": "2-9",
+        "p_rival": 0.654,
+        "verdict": "undecided at n=11"
+      }
+    },
+    "matched": {
+      "K": [5, 10, 20],
+      "survfcbf_panel_by_K": {
+        "K5": 5,
+        "K10": 10,
+        "K20": 19.5,
+        "K50": 26.6,
+        "K100": 26.7
+      },
+      "range_vs_variance": [0.018, 0.03],
+      "range_vs_mim_surv": [-0.037, -0.022],
+      "range_vs_carss": [0.004, 0.012],
+      "all_undecided": true
+    }
+  },
+  "redundancy": {
+    "n_cohorts": 11,
+    "mean_abs_r_K10": {
+      "carss": 0.105,
+      "mim_surv": 0.266,
+      "mim_surv_q2": 0.261,
+      "mrmr": 0.119,
+      "mrmr_q2": 0.121,
+      "survfcbf_q10": 0.165,
+      "survfcbf_q2": 0.134,
+      "survfcbf_q4": 0.149,
+      "variance": 0.432
+    },
+    "share_r05_K10": {
+      "carss": 0.012,
+      "mim_surv": 0.153,
+      "mim_surv_q2": 0.127,
+      "mrmr": 0.006,
+      "mrmr_q2": 0.008,
+      "survfcbf_q10": 0.017,
+      "survfcbf_q2": 0.008,
+      "survfcbf_q4": 0.009,
+      "variance": 0.388
+    },
+    "uno_c_K10": {
+      "carss": 0.544,
+      "mim_surv": 0.582,
+      "mim_surv_q2": 0.553,
+      "mrmr": 0.591,
+      "mrmr_q2": 0.547,
+      "survfcbf_q10": 0.576,
+      "survfcbf_q2": 0.548,
+      "survfcbf_q4": 0.569,
+      "variance": 0.523
+    },
+    "stability_K10": {
+      "carss": 0.269,
+      "mim_surv": 0.057,
+      "mim_surv_q2": 0.138,
+      "mrmr": 0.022,
+      "mrmr_q2": 0.108,
+      "survfcbf_q10": 0.044,
+      "survfcbf_q2": 0.09,
+      "survfcbf_q4": 0.041,
+      "variance": 0.905
+    },
+    "cohorts_survfcbf_below_mim": 10,
+    "cohorts_survfcbf_below_mim_q2": 11,
+    "cohorts_survfcbf_below_mrmr_q2": 3,
+    "failed_folds": 0,
+    "vs_mrmr": {
+      "stability": {
+        "5": {
+          "diff": 0.071,
+          "se": 0.009,
+          "cohorts": "11-0",
+          "p_focus": 0.977,
+          "p_rival": 0,
+          "verdict": "survfcbf better"
+        },
+        "10": {
+          "diff": 0.068,
+          "se": 0.007,
+          "cohorts": "11-0",
+          "p_focus": 0.973,
+          "p_rival": 0,
+          "verdict": "survfcbf better"
+        },
+        "20": {
+          "diff": 0.06,
+          "se": 0.012,
+          "cohorts": "10-1",
+          "p_focus": 0.831,
+          "p_rival": 0,
+          "verdict": "undecided at n=11"
+        }
+      },
+      "uno_c": {
+        "5": {
+          "diff": -0.02,
+          "se": 0.017,
+          "cohorts": "3-8",
+          "p_focus": 0.059,
+          "p_rival": 0.755,
+          "verdict": "undecided at n=11"
+        },
+        "10": {
+          "diff": -0.043,
+          "se": 0.02,
+          "cohorts": "2-9",
+          "p_focus": 0.007,
+          "p_rival": 0.965,
+          "verdict": "rival better"
+        },
+        "20": {
+          "diff": -0.01,
+          "se": 0.017,
+          "cohorts": "5-6",
+          "p_focus": 0.061,
+          "p_rival": 0.283,
+          "verdict": "undecided at n=11"
+        }
+      }
+    }
+  },
+  "censoring_cox": {
+    "harrell_c": {
+      "carss_K10": 0.542,
+      "mim_surv_K10": 0.574,
+      "mim_surv_q2_K10": 0.548,
+      "mrmr_K10": 0.568,
+      "mrmr_q2_K10": 0.54,
+      "random_K10": 0.549,
+      "survfcbf_q10_K10": 0.576,
+      "survfcbf_q2_K10": 0.526,
+      "survfcbf_q4_K10": 0.573,
+      "variance_K10": 0.509
+    },
+    "failed_folds": 0,
+    "null_fit_folds": 42,
+    "random_panels": 100,
+    "random_mean": 0.546,
+    "cohorts_above_random_p95": {
+      "carss_K10": 2,
+      "mim_surv_K10": 4,
+      "mim_surv_q2_K10": 1,
+      "mrmr_K10": 3,
+      "mrmr_q2_K10": 1,
+      "survfcbf_q10_K10": 5,
+      "survfcbf_q2_K10": 0,
+      "survfcbf_q4_K10": 5,
+      "variance_K10": 1
+    },
+    "survfcbf_q2_max_percentile": 0.75,
+    "survfcbf_q2_max_percentile_cohort": "BRCA",
+    "metabric_percentile": {
+      "survfcbf_q2_K10": 0.52,
+      "survfcbf_q10_K10": 1,
+      "mim_surv_K10": 0.9,
+      "mrmr_K10": 1
+    },
+    "metabric_harrell_c": {
+      "survfcbf_q2_K10": 0.599,
+      "survfcbf_q10_K10": 0.675,
+      "mim_surv_K10": 0.615,
+      "mrmr_K10": 0.665
+    }
+  },
+  "stability_theta": {
+    "thetas": [0.5, 0.7, 0.9],
+    "draws": {
+      "0.5": 1000,
+      "0.7": 10000,
+      "0.9": 10000
+    },
+    "mean": {
+      "0.5": {
+        "carss": 0.184,
+        "mim_surv": 0.29,
+        "mim_surv_q2": 0.178,
+        "mrmr": 0.009,
+        "mrmr_q2": 0.064,
+        "survfcbf_q2": 0.05,
+        "variance": 0.902
+      },
+      "0.7": {
+        "carss": 0.263,
+        "mim_surv": 0.127,
+        "mim_surv_q2": 0.16,
+        "mrmr": 0.024,
+        "mrmr_q2": 0.113,
+        "survfcbf_q2": 0.093,
+        "variance": 0.907
+      },
+      "0.9": {
+        "carss": 0.269,
+        "mim_surv": 0.057,
+        "mim_surv_q2": 0.138,
+        "mrmr": 0.022,
+        "mrmr_q2": 0.108,
+        "survfcbf_q2": 0.09,
+        "variance": 0.905
+      }
+    },
+    "vs_mim_surv_q2": {
+      "0.5": {
+        "diff": -0.128,
+        "cohorts_lower": 9
+      },
+      "0.7": {
+        "diff": -0.066,
+        "cohorts_lower": 10
+      },
+      "0.9": {
+        "diff": -0.047,
+        "cohorts_lower": 10
+      }
+    },
+    "vs_mrmr_q2": {
+      "0.5": {
+        "diff": -0.014,
+        "cohorts_lower": 8
+      },
+      "0.7": {
+        "diff": -0.019,
+        "cohorts_lower": 8
+      },
+      "0.9": {
+        "diff": -0.018,
+        "cohorts_lower": 6
+      }
+    },
+    "vs_mrmr": {
+      "0.5": {
+        "diff": 0.041,
+        "cohorts_lower": 3
+      },
+      "0.7": {
+        "diff": 0.07,
+        "cohorts_lower": 0
+      },
+      "0.9": {
+        "diff": 0.068,
+        "cohorts_lower": 0
+      }
+    }
+  },
+  "target": {
+    "means": {
+      "uno_c_trunc": {
+        "ipcw": 0.577,
+        "martingale": 0.572
+      },
+      "uno_c": {
+        "ipcw": 0.57,
+        "martingale": 0.548
+      },
+      "stability": {
+        "ipcw": 0.104,
+        "martingale": 0.09
+      },
+      "mean_abs_r": {
+        "ipcw": 0.161,
+        "martingale": 0.134
+      },
+      "harrell_c_censoring": {
+        "ipcw": 0.55,
+        "martingale": 0.526
+      }
+    },
+    "diff_trunc_ipcw_minus_martingale": 0.005,
+    "jaccard_mean": 0,
+    "jaccard_max": 0,
+    "gradient_spearman": {
+      "ipcw": 0.3,
+      "martingale": 0.591
+    },
+    "brca_censoring_c": {
+      "martingale": 0.54,
+      "ipcw": 0.539
+    }
+  },
+  "centre": {
+    "n_centres_range": [15, 35],
+    "largest_share_range": [0.098, 0.295],
+    "c_centre_censoring": 0.741,
+    "c_centre_censoring_range": [0.585, 0.822],
+    "c_centre_death": 0.576,
+    "c_centre_death_range": [0.496, 0.65],
+    "cohorts_followup_differs_p001": 10,
+    "median_followup_days_range": [200, 1463],
+    "time_max_days_range": [2558, 9568]
+  },
+  "metabric_clinical": {
+    "n": 1926,
+    "events": 1117,
+    "uno_c_trunc": {
+      "clinical": 0.652,
+      "panel": 0.589,
+      "clinical_plus_panel": 0.655
+    },
+    "added_by_panel_trunc": 0.003,
+    "added_by_panel_trunc_se": 0.005,
+    "added_by_panel_untrunc": -0.003,
+    "added_by_panel_ibs": -0.008
+  },
+  "sim_matched": {
+    "n_datasets": 300,
+    "K": [3, 10],
+    "sensitivity": {
+      "3": {
+        "carss": 0.345,
+        "mim_surv": 0.293,
+        "mim_surv_q2": 0.454,
+        "mrmr": 0.315,
+        "mrmr_q2": 0.613,
+        "survfcbf_q2": 0.631,
+        "variance": 0.018
+      },
+      "10": {
+        "carss": 0.548,
+        "mim_surv": 0.47,
+        "mim_surv_q2": 0.718,
+        "mrmr": 0.48,
+        "mrmr_q2": 0.762,
+        "survfcbf_q2": 0.776,
+        "variance": 0.049
+      }
+    },
+    "redundant_copies": {
+      "3": {
+        "carss": 0.604,
+        "mim_surv": 0.295,
+        "mim_surv_q2": 0.859,
+        "mrmr": 0,
+        "mrmr_q2": 0,
+        "survfcbf_q2": 0,
+        "variance": 0.014
+      },
+      "10": {
+        "carss": 3.069,
+        "mim_surv": 1.654,
+        "mim_surv_q2": 4.106,
+        "mrmr": 0.001,
+        "mrmr_q2": 0.042,
+        "survfcbf_q2": 0,
+        "variance": 0.092
+      }
+    },
+    "fdr": {
+      "3": {
+        "carss": 0.453,
+        "mim_surv": 0.608,
+        "mim_surv_q2": 0.26,
+        "mrmr": 0.684,
+        "mrmr_q2": 0.386,
+        "survfcbf_q2": 0.369,
+        "variance": 0.975
+      },
+      "10": {
+        "carss": 0.527,
+        "mim_surv": 0.692,
+        "mim_surv_q2": 0.374,
+        "mrmr": 0.854,
+        "mrmr_q2": 0.766,
+        "survfcbf_q2": 0.766,
+        "variance": 0.974
+      }
+    },
+    "exact": {
+      "3": {
+        "carss": 0.045,
+        "mim_surv": 0.045,
+        "mim_surv_q2": 0.054,
+        "mrmr": 0.116,
+        "mrmr_q2": 0.339,
+        "survfcbf_q2": 0.353,
+        "variance": 0
+      },
+      "10": {
+        "carss": 0.134,
+        "mim_surv": 0.089,
+        "mim_surv_q2": 0.207,
+        "mrmr": 0,
+        "mrmr_q2": 0,
+        "survfcbf_q2": 0,
+        "variance": 0
+      }
+    },
+    "uno_c": {
+      "3": {
+        "carss": 0.575,
+        "mim_surv": 0.561,
+        "mim_surv_q2": 0.593,
+        "mrmr": 0.563,
+        "mrmr_q2": 0.606,
+        "survfcbf_q2": 0.607,
+        "variance": 0.504
+      },
+      "10": {
+        "carss": 0.595,
+        "mim_surv": 0.584,
+        "mim_surv_q2": 0.615,
+        "mrmr": 0.579,
+        "mrmr_q2": 0.605,
+        "survfcbf_q2": 0.607,
+        "variance": 0.509
+      }
+    },
+    "stability": {
+      "3": {
+        "carss": 0.387,
+        "mim_surv": 0.181,
+        "mim_surv_q2": 0.438,
+        "mrmr": 0.144,
+        "mrmr_q2": 0.384,
+        "survfcbf_q2": 0.408,
+        "variance": 0.237
+      },
+      "10": {
+        "carss": 0.461,
+        "mim_surv": 0.203,
+        "mim_surv_q2": 0.499,
+        "mrmr": 0.098,
+        "mrmr_q2": 0.274,
+        "survfcbf_q2": 0.282,
+        "variance": 0.294
+      }
+    },
+    "best_rival_sensitivity": {
+      "3": 0.345,
+      "10": 0.548
+    },
+    "sensitivity_2dp": {
+      "survfcbf": {
+        "3": 0.63,
+        "10": 0.78
+      },
+      "best_rival": {
+        "3": 0.34,
+        "10": 0.55
+      },
+      "mrmr_q2": {
+        "3": 0.61,
+        "10": 0.76
+      },
+      "mim_surv_q2": {
+        "3": 0.45,
+        "10": 0.72
+      }
+    },
+    "uno_c_trunc": {
+      "3": {
+        "carss": 0.578,
+        "mim_surv": 0.565,
+        "mim_surv_q2": 0.6,
+        "mrmr": 0.565,
+        "mrmr_q2": 0.612,
+        "survfcbf_q2": 0.615,
+        "variance": 0.504
+      },
+      "10": {
+        "carss": 0.603,
+        "mim_surv": 0.588,
+        "mim_surv_q2": 0.624,
+        "mrmr": 0.583,
+        "mrmr_q2": 0.614,
+        "survfcbf_q2": 0.615,
+        "variance": 0.508
+      }
+    },
+    "survfcbf_redundant_copies_total": 0,
+    "null_fit_folds": {
+      "carss": 14,
+      "mim_surv": 178,
+      "mim_surv_q2": 0,
+      "mrmr": 207,
+      "mrmr_q2": 1,
+      "survfcbf_q2": 0,
+      "variance": 946
+    }
+  },
+  "leakage": {
+    "module_su_fixed": 0.286,
+    "module_su_leaksafe": 0.063,
+    "module_car_fixed": 0.38,
+    "module_car_leaksafe": 0.066,
+    "gene_level": 0.127,
+    "cohorts_below_gene_level": 9,
+    "n_cohorts": 10,
+    "inflation_factor": 5.795
+  },
+  "metabric": {
+    "n": 1979,
+    "events": 1143,
+    "p": 19839,
+    "ranker_panel": 1984,
+    "topk_panel": 10,
+    "events_range": [75, 1143],
+    "survfcbf_stability_range": [0.119, 0.217],
+    "variance_stability_range": [0.888, 0.975]
+  },
+  "car_ablation": {
+    "su_mean": 0.166,
+    "car_mean": 0.331,
+    "cohorts_car_better": 11,
+    "n_cohorts": 11,
+    "consensus_su": 1.5,
+    "consensus_car": 4.5
+  },
+  "enrichment": {
+    "gsea_cohorts_enriched": {
+      "carss": 5,
+      "mim_surv": 9,
+      "survfcbf": 7,
+      "variance": 11
+    },
+    "ora_topk_full_space": {
+      "global_bh": {
+        "carss": 0,
+        "mim_surv": 0,
+        "survfcbf_topk": 0,
+        "variance": 1
+      },
+      "per_signature_bh": {
+        "carss": 0,
+        "mim_surv": 0,
+        "survfcbf_topk": 1,
+        "variance": 4
+      }
+    },
+    "ora_topk_coding_only": {
+      "global_bh": {
+        "carss": 0,
+        "mim_surv": 0,
+        "survfcbf_topk": 0,
+        "variance": 2
+      },
+      "per_signature_bh": {
+        "carss": 0,
+        "mim_surv": 0,
+        "survfcbf_topk": 0,
+        "variance": 4
+      }
+    }
+  },
+  "runtime": {
+    "scaling_exponent": 0.973,
+    "seconds_at_p20k": 8.18,
+    "variance_seconds_at_p20k": 0.15
+  },
+  "simulation": {
+    "n_scenarios": 10,
+    "n_replicates": 300,
+    "empty_panel_share": {
+      "survfcbf": 0.46,
+      "survfcbf_cvq": 0.183
+    },
+    "all_folds_failed_share": {
+      "survfcbf": 0.81,
+      "survfcbf_cvq": 0.41
+    },
+    "failed_fold_share": {
+      "survfcbf": 0.869,
+      "survfcbf_cvq": 0.601
+    }
+  },
+  "validation": {
+    "su_pairs": 200,
+    "su_max_abs_diff": 1.03e-15,
+    "selections_identical": 395,
+    "selections_mismatches": 0,
+    "selections_skipped_exact_ties": 5,
+    "tie_sweep_datasets": 300,
+    "tie_sweep_mismatches": 33,
+    "tie_sweep_mismatches_at_exact_tie": 33,
+    "scdengue_genes": 19541,
+    "scdengue_thresholds": 5,
+    "scdengue_mismatches": 0,
+    "topk_comparisons": 7143,
+    "topk_mismatches": 0
+  }
+}

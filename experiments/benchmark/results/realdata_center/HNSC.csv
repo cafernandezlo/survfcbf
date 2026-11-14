@@ -1,0 +1,2 @@
+"cohort","n","events","n_centres","largest_centre_share","time_min","time_median","time_max","median_followup_reverse_km","kruskal_p_followup_censored","c_centre_death","c_centre_death_se","c_centre_censoring","c_centre_censoring_se"
+"HNSC",443,152,24,0.2686230248307,2,397,6417,646,4.41337436426611e-24,0.544244938064218,0.0202474470118894,0.797301383738724,0.0105544736027704

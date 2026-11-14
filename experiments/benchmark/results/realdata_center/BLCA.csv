@@ -1,0 +1,2 @@
+"cohort","n","events","n_centres","largest_centre_share","time_min","time_median","time_max","median_followup_reverse_km","kruskal_p_followup_censored","c_centre_death","c_centre_death_se","c_centre_censoring","c_centre_censoring_se"
+"BLCA",382,103,35,0.128272251308901,2,272,4684,399,2.55208979007493e-21,0.622885805976778,0.0264169219436668,0.778847027928692,0.00858767816637213

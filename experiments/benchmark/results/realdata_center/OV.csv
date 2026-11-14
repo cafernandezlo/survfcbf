@@ -1,0 +1,2 @@
+"cohort","n","events","n_centres","largest_centre_share","time_min","time_median","time_max","median_followup_reverse_km","kruskal_p_followup_censored","c_centre_death","c_centre_death_se","c_centre_censoring","c_centre_censoring_se"
+"OV",219,109,15,0.246575342465753,11,863,3525,1367,0.0571191627553924,0.632844898811931,0.0309221557913578,0.584859500601059,0.0275419584288528

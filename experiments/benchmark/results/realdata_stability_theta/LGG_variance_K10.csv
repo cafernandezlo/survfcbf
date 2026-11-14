@@ -1,0 +1,4 @@
+"cohort","selector","theta","draws","stability","stability_main_run","seconds"
+"LGG","variance_K10",0.9,10000,1,1,115.015
+"LGG","variance_K10",0.7,10000,1,1,1240.106
+"LGG","variance_K10",0.5,1000,1,1,1746.651

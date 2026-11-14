@@ -1,0 +1,32 @@
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}l r r r l r r l@{}}
+\toprule
+ &  & \multicolumn{3}{c}{Uno's C, truncated} & \multicolumn{3}{c}{Stability} \\
+\cmidrule(lr){3-5}\cmidrule(l){6-8}
+Rival & $K$ & Difference (SE) & Cohorts & Verdict & Difference (SE) & Cohorts & Verdict \\
+\midrule
+Variance & 5 & 0.022 (0.023) & 8/3 & undecided & $-$0.779 (0.033) & 0/11 & rival \\
+ & 10 & 0.029 (0.018) & 8/3 & undecided & $-$0.803 (0.015) & 0/11 & rival \\
+ & 20 & 0.017 (0.015) & 6/5 & undecided & $-$0.803 (0.009) & 0/11 & rival \\
+\addlinespace
+CAR & 5 & 0.021 (0.014) & 7/4 & undecided & $-$0.166 (0.027) & 0/11 & rival \\
+ & 10 & 0.012 (0.008) & 8/3 & undecided & $-$0.174 (0.019) & 0/11 & rival \\
+ & 20 & 0.008 (0.007) & 5/6 & equivalent & $-$0.187 (0.016) & 0/11 & rival \\
+\addlinespace
+MIM & 5 & $-$0.013 (0.009) & 4/7 & undecided & 0.064 (0.012) & 9/2 & undecided \\
+ & 10 & $-$0.014 (0.008) & 4/7 & undecided & 0.062 (0.015) & 10/1 & undecided \\
+ & 20 & $-$0.014 (0.009) & 3/8 & undecided & 0.053 (0.016) & 9/2 & undecided \\
+\addlinespace
+mRMR & 5 & $-$0.002 (0.006) & 6/5 & equivalent & 0.082 (0.010) & 11/0 & \pkg{survfcbf} \\
+ & 10 & $-$0.003 (0.007) & 6/5 & equivalent & 0.084 (0.009) & 11/0 & \pkg{survfcbf} \\
+ & 20 & $-$0.006 (0.007) & 5/6 & equivalent & 0.077 (0.008) & 11/0 & \pkg{survfcbf} \\
+\addlinespace
+MIM, $q = 2$ & 5 & $-$0.009 (0.004) & 3/8 & equivalent & $-$0.033 (0.013) & 3/8 & undecided \\
+ & 10 & $-$0.006 (0.004) & 4/7 & equivalent & $-$0.035 (0.010) & 2/9 & undecided \\
+ & 20 & $-$0.003 (0.005) & 5/6 & equivalent & $-$0.045 (0.009) & 0/11 & undecided \\
+\addlinespace
+mRMR, $q = 2$ & 5 & $-$0.002 (0.004) & 5/6 & equivalent & 0.014 (0.008) & 8/3 & equivalent \\
+ & 10 & $-$0.002 (0.003) & 5/6 & equivalent & $-$0.003 (0.005) & 6/5 & equivalent \\
+ & 20 & $-$0.006 (0.004) & 3/8 & equivalent & $-$0.038 (0.006) & 0/11 & equivalent \\
+\bottomrule
+\end{tabular}

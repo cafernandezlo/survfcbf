@@ -1,0 +1,2 @@
+"cohort","n","events","n_centres","largest_centre_share","time_min","time_median","time_max","median_followup_reverse_km","kruskal_p_followup_censored","c_centre_death","c_centre_death_se","c_centre_censoring","c_centre_censoring_se"
+"BRCA",735,72,31,0.172789115646259,1,543,7067,554,2.62287244934402e-68,0.557891836989135,0.0453429469189013,0.766029408061256,0.00863814485491093

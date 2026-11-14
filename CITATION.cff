@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use survfcbf, please cite it as below."
+title: "survfcbf: Fast Correlation-Based Filter Feature Selection for Right-Censored Survival Data"
+type: software
+authors:
+  - family-names: Fernandez-Lozano
+    given-names: Carlos
+    orcid: "https://orcid.org/0000-0003-0413-5677"
+    affiliation: "Universidade da Coruña"
+repository-code: "https://github.com/cafernandezlo/survfcbf"
+url: "https://github.com/cafernandezlo/survfcbf"
+license: GPL-3.0-only
+abstract: >-
+  Adapts the Fast Correlation-Based Filter (FCBF; Yu and Liu, 2003) to
+  right-censored survival data, carrying its approximate Markov blanket
+  (predominance) feature pruning to time-to-event outcomes. Provides the
+  method together with a leakage-safe nested cross-validation harness, a
+  known-truth survival data simulator with cluster-level scoring, and
+  wrappers for the standard filter baselines.
+keywords:
+  - feature selection
+  - survival analysis
+  - FCBF
+  - Markov blanket
+  - high-dimensional data
+  - R

@@ -1,0 +1,77 @@
+%% survfcbf -- Application Note for Oxford Bioinformatics.
+%%
+%% Format: official OUP authoring template (oup-authoring-template, CTAN v1.5),
+%% options [unnumsec,namedate,webpdf,contemporary,large] = the journal's two-column
+%% large format with author-year citations. Limit for Application Notes: up to
+%% 4 pages, approx. 2,000 words plus one figure. Structured abstract
+%% (Motivation / Results / Availability and implementation). The application name
+%% must appear in the title. Software public at a stable URL AT SUBMISSION and
+%% archived with a DOI (Zenodo); available for two years post-publication.
+%%
+%% The class and the oup-abbrvnat.bst ship with TinyTeX via
+%%   tlmgr install oup-authoring-template
+%%
+%% The text lives in pieces shared with the preprint (preprint.tex): macros.tex,
+%% abstract.tex and body.tex. This file holds only what is specific to the journal
+%% format. The supplementary material is supplementary.tex.
+%%
+%% Every number quoted in the text traces to paper/results/paper_statistics.json or to
+%% a CSV tracked under experiments/benchmark/results/. Do not edit a number without
+%% regenerating its source. After any edit run
+%%   Rscript --no-init-file paper/check_manuscript_numbers.R
+%% which checks every quoted figure against the JSON and exits non-zero on a mismatch.
+\documentclass[unnumsec,namedate,webpdf,contemporary,large]{oup-authoring-template}
+
+% URLs (GitHub, DOIs) must break inside the narrow columns, or they overflow
+\usepackage{xurl}
+
+\newcommand{\societylogo}{}
+
+\input{macros}
+
+\begin{document}
+
+\journaltitle{Bioinformatics}
+\DOI{DOI added during production}
+\copyrightyear{2026}
+\pubyear{2026}
+\vol{XX}
+\issue{x}
+\access{Published: Date added during production}
+\appnotes{Application Note}
+
+\firstpage{1}
+
+\subtitle{Gene expression}
+
+\title[survfcbf: FCBF feature selection for survival data]{\pkg{survfcbf}:
+fast correlation-based filter feature selection for right-censored survival data}
+
+\author[1,$\ast$]{Carlos Fernandez-Lozano\ORCID{0000-0003-0413-5677}}
+
+\address[1]{\orgdiv{Department of Computer Science and Information Technologies,
+Faculty of Computer Science}, \orgname{Universidade da Coru\~na},
+\orgaddress{\postcode{15071}, \state{A Coru\~na}, \country{Spain}}}
+
+\corresp[$\ast$]{Corresponding author.
+\href{mailto:carlos.fernandez@udc.es}{carlos.fernandez@udc.es}}
+
+\received{Date}{0}{Year}
+\revised{Date}{0}{Year}
+\accepted{Date}{0}{Year}
+
+\abstract{
+\input{abstract}
+% the trailing \\ gives the class's closing dot-leader its own line; without it the
+% leader overflows the text block by 248pt (the only overfull the official sample
+% does not also produce)
+\textbf{Supplementary information:} Supplementary data are available online.\\}
+
+\maketitle
+
+\input{body}
+
+\bibliographystyle{oup-abbrvnat}
+\bibliography{appnote}
+
+\end{document}

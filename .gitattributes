@@ -1,0 +1,4 @@
+# SLURM rejects scripts with CRLF line endings, so keep shell/sbatch as LF
+# even when checked out or archived on Windows.
+*.sbatch text eol=lf
+*.sh text eol=lf

@@ -1,0 +1,836 @@
+% Supplementary material of the survfcbf Application Note, compiled by supplementary.tex
+% into the single file that goes both to the journal and, as a separate file, to bioRxiv.
+% Every number in a table, and every figure quoted below through a \Supp... macro, is
+% generated from the tracked result files by paper/make_supplementary_tables.R. Settings
+% stated in words (folds, grids, seeds) are those of the scripts named in each section.
+
+\noindent This supplement documents the analyses behind every result of the Application
+Note. The scripts it names are in the folder \code{experiments/benchmark/realdata/} of
+the repository, except \code{grid\_lib.R} and \code{sim\_matched\_size.R}, which are in
+\code{experiments/benchmark/}.
+Every table is generated from the result files tracked in the repository by
+\code{paper/make\_supplementary\_tables.R}.
+
+\section{Machine-learning reporting}\label{S-sec:ml}
+
+The characterisation in the Application Note trains prognostic (risk) models, so this section
+gives the description that \emph{Bioinformatics} asks of machine-learning papers: the
+composition of the training data, the preparation of the cross-validation sets and the
+performance on test data that no training step has seen.
+
+\paragraph{What is trained.} \pkg{survfcbf} is a feature selector, and the package ships
+no fitted prognostic model. The object under evaluation is a procedure: a selector
+applied to a training set, followed by a ridge-penalised Cox model \citep{simon2011}
+fitted on the selected features of the same training set. Every component of the
+procedure is refitted from scratch on each training set, and no fitted model is reused
+across folds or across cohorts. The models are prognostic: they rank patients by their risk
+of death under the treatments they received, and nothing here addresses the prediction of
+benefit from a treatment.
+
+\paragraph{Training data.} The data are the eleven TCGA cohorts of the reference
+benchmark \citep{bommert2021bib}, with \SuppTcgaPatients{} patients and
+\SuppTcgaEvents{} events in total, and METABRIC, with \SuppMetabricN{} patients and
+\SuppMetabricEvents{} events (Table~\ref{S-tab:cohorts}). For TCGA the features are all
+the RNA and miRNA expression features of the OpenML datasets prepared by
+\citet{herrmann2020}, the feature set of the reference benchmark, and the outcome is
+overall survival: \citet{herrmann2020} define it as the censored survival time with
+deaths as events. The features are used as distributed, without a further filter or
+transformation. OpenML lists these datasets under GPL-2 and does not document their
+normalisation. For METABRIC the features are the genes of the complete Illumina HT-12 v3
+profile, less those with a missing value or zero variance, and the outcome is overall
+survival. The 19{,}850 profiled genes and 1{,}980 samples become \SuppMetabricP{} genes
+and the \SuppMetabricN{} patients with a clinical record and a positive overall survival
+time. The gene filters do not use the outcome, and no other preprocessing precedes the
+cross-validation. The loaders check every input file against recorded checksums (SHA-256
+for the METABRIC snapshot, MD5 for the OpenML files) and stop on any mismatch.
+
+\paragraph{Batch effects.} No batch correction is applied. Every comparison is between
+selectors within one cohort, on the same folds and the same expression matrix, the input
+of the reference benchmark. A technical effect is therefore shared by all selectors, but it
+can still favour some of them, because it shapes what each criterion picks. A ranking by
+variance, which ignores the outcome, follows the largest sources of variation, technical
+ones included, and the same holds for its stability and for the enrichment of its ranking
+(Section~\ref{S-sec:gsea}). The tissue source site, read from the TCGA barcodes
+(\SuppCentreMin{} to \SuppCentreMax{} centres per cohort), predicts censoring with a
+cross-validated Harrell's C of \SuppCentreCens{} (\SuppCentreCensMin{} to
+\SuppCentreCensMax{} across cohorts) and death with \SuppCentreDeath, and the follow-up of
+the censored patients differs between centres in \SuppCentreDiffer{} of eleven cohorts
+(Kruskal-Wallis $P < 0.001$, \code{center\_followup.R}). Follow-up therefore varies with
+something that may also shape expression, and Section~\ref{S-sec:selectors} tests whether
+the selected panels inherit it. METABRIC, on a microarray platform, is analysed on its
+own, so no correction between platforms is needed.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Cohorts. $n$ is the number of patients analysed and $p$ the number of features
+in the main benchmark. ``$p$ coding'' counts the protein-coding RNA features, the
+feature set of the matched panel size analysis (Section~\ref{S-sec:cardinality}) and of
+the gene-set enrichment (Section~\ref{S-sec:gsea}). Each TCGA cohort is assembled from
+the OpenML datasets whose identifiers are listed as its data source, as in
+\citet{herrmann2020} and \citet{bommert2021bib}.
+METABRIC is the profile \code{brca\_metabric\_mrna} of the cBioPortal study
+\code{brca\_metabric}, archived at \href{https://doi.org/\metabricdoi}{doi:\metabricdoi}.
+n.r., not run.}
+\label{S-tab:cohorts}
+\input{generated/tab_cohorts}
+\end{table}
+
+\paragraph{Cross-validation sets.} Each cohort is split into five outer folds, stratified
+on the event indicator. Within the patients with an event, and within the censored
+patients, fold sizes differ by at most one, so every test fold holds a fifth of the
+patients and a fifth of the events up to rounding. The assignment depends only on the
+event indicator and a fixed seed, so within a cohort every selector is evaluated on the
+same five splits. In each fold the other four fifths form the training set, and every
+quantity learned from data is learned on it alone (Table~\ref{S-tab:leakage}). The
+penalties of the lasso and of the ridge Cox models are tuned by an inner cross-validation
+inside the training set (the ten-fold internal cross-validation of \code{cv.glmnet}), and
+so is $q$ in the tuned variant of \pkg{survfcbf} of the simulation (three inner folds,
+Section~\ref{S-sec:simulation}). Leave-one-out cross-validation is not used anywhere.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Where each quantity learned from data is fitted. Training set: the four fifths
+of the cohort outside the outer test fold. Inner cross-validation: folds drawn inside
+that training set. The test fold enters only the predictions being scored.}
+\label{S-tab:leakage}
+\begin{tabularx}{\linewidth}{@{}X l l@{}}
+\toprule
+Quantity & Used by & Fitted on \\
+\midrule
+Null Cox model and its martingale residuals & \pkg{survfcbf}, MIM, mRMR & Training set \\
+Equal-frequency discretisation cut-points & \pkg{survfcbf}, MIM, mRMR & Training set \\
+Relevance threshold $\delta$ from the permutation null & \pkg{survfcbf} & Training set \\
+Number of bins $q$ & \pkg{survfcbf}, tuned $q$ (simulation) & Inner cross-validation \\
+Feature variances & Variance & Training set \\
+CAR scores and their censoring weights & CAR & Training set \\
+Lasso penalty and coefficients & Lasso Cox & Inner cross-validation \\
+Ridge penalty and coefficients of the downstream model & All selectors & Inner cross-validation \\
+Censoring distribution for Uno's C and the integrated Brier score & Metrics & Training set \\
+Truncation time of Uno's C (80th percentile of follow-up) & Metrics & Training set \\
+Feature correlations for the stability index & Metrics & All patients, without the outcome \\
+Feature correlations for the redundancy within a panel & Metrics & Training set \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The one quantity computed on all patients is the feature correlation matrix of the
+stability index. It does not use the outcome and is only used to score the agreement
+between sets that were already selected, so it cannot influence any selection or
+prediction.
+
+\paragraph{Independent test sets.} In each fold the held-out fifth is the independent
+test set. None of its patients enters selection, tuning, model fitting or the censoring
+weights of that fold. Uno's C and the integrated Brier score are reported for every
+cohort as the mean and standard error over the five test folds of the published split
+(Tables~\ref{S-tab:unoc} and~\ref{S-tab:ibs}), not only as an average over cohorts. These
+standard errors treat the five folds as independent, which they are not, since their
+training sets overlap, so they understate the uncertainty of a single cohort's estimate.
+The comparisons quoted in the Application Note average ten such splits per cohort
+instead (Section~\ref{S-sec:bayes}). METABRIC is an
+independent breast cancer cohort measured
+on a different platform. It is analysed with the same protocol rather than used as a
+test set for models trained on TCGA, because what the characterisation compares is a
+selection procedure, and no fitted model is transferred between cohorts.
+
+\paragraph{Failed folds and null fits.} A fold fails when the selector returns fewer
+features than the learner needs (the ridge Cox model of \pkg{glmnet} needs at least two)
+or when the learner stops with an error. A failed fold has no prediction, is not scored
+and is counted (Table~\ref{S-tab:failures}). A fold is a null fit when the fitted model
+predicts the same survival curve for every test patient, which happens when the inner
+cross-validation of the ridge model selects its largest penalty. Null fits are scored and
+counted. The ridge penalty is taken at the minimum of the inner cross-validation error
+(\code{lambda.min}) in every run, because the one-standard-error rule returns the null
+model whenever events are scarce.
+
+\paragraph{Seeds.} Every run is reproducible from one master seed. In the real-data
+analyses the seed is 1 for every cohort, and the seed of each fold is derived from it
+arithmetically (option \code{rng = "sequential"}, the package default). In the
+simulation, replicate $r$ of every configuration is generated in its own
+L'Ecuyer-CMRG stream seeded with $1000 + r$, and its folds are seeded from the same
+number. The package also offers an independent L'Ecuyer-CMRG stream per fold
+(\code{rng = "stream"}), which these runs did not use. The repeated cross-validation uses
+seeds 1 to 10, one per repetition, seed 1 being the published split.
+
+\section{Selectors and metrics}\label{S-sec:selectors}
+
+Table~\ref{S-tab:selectors} lists the selectors and their settings, as configured in
+\code{run\_dataset.R}. Every selector is followed by the
+same downstream model, a ridge Cox model fitted with \code{cv.glmnet} through
+\pkg{mlr3extralearners} (\code{alpha = 0}, \code{s = "lambda.min"}). The rankers keep the
+top ten per cent of the features, the conventional cut-off.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Selectors. SU, symmetrical uncertainty. The martingale residuals come from a
+covariate-free Cox model fitted on the training set. The rule of \citet{bommert2021bib}
+sets $q = \max(\min(\lfloor n/3 \rfloor, 10), 2)$, which gives $q = 10$ at every training
+set size in this study.}
+\label{S-tab:selectors}
+\begin{tabularx}{\linewidth}{@{}l X l@{}}
+\toprule
+Selector & Criterion & Panel size \\
+\midrule
+\pkg{survfcbf}, top-$K$ & SU with the martingale residuals at $q = 2$, ties broken by the
+  absolute Spearman correlation of the continuous feature with the residuals, then
+  Markov-blanket pruning until $K$ predominant features remain
+  (\code{survfcbf\_select(q = 2, top = 10)}) & $K = 10$ \\
+\pkg{survfcbf}, permutation & SU at $q$ from the rule of \citeauthor{bommert2021bib}, relevance threshold
+  $\delta$ at the 95th percentile of the maximum SU over 200 permutations of the target, the
+  same tie-break, then Markov-blanket pruning & Self-selected \\
+Variance & Variance of each feature, without the outcome & 10\% of $p$ \\
+CAR & Correlation-adjusted regression survival scores \citep{welchowski2019}, \pkg{carSurv} & 10\% of $p$ \\
+MIM & Mutual information with the discretised martingale residuals \citep{kursa2021}, \pkg{praznik} & 10\% of $p$ \\
+Lasso Cox & Non-zero coefficients of an $L_1$-penalised Cox model at \code{lambda.min}
+  \citep{simon2011} & Self-selected \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Metrics.} Discrimination is Uno's C \citep{uno2011}, the concordance index
+with inverse probability of censoring weights (\code{surv.cindex} with
+\code{weight\_meth = "G2"} in \pkg{mlr3proba}, \citealp{sonabend2021}), truncated at
+the 80th percentile of the follow-up times of the training set (\code{t\_max}, computed
+by \code{uno\_truncated.R}). Without truncation its censoring weights grow without bound
+for test events beyond the last censoring time of the training set: over the
+\SuppTruncFolds{} folds of \code{panel\_redundancy.R}, the untruncated value differed from
+the truncated one by more than 0.10 in \SuppTruncOffTen\% of folds and by more than 0.20
+in \SuppTruncOffTwenty\%. The untruncated value is still reported. Discrimination and
+calibration together are the integrated Brier score of \citet{graf1999}
+(\code{surv.graf}). Both take the censoring distribution from the training set of the
+fold. Stability is the similarity-adjusted intersection count of
+\pkg{stabm} \citep{bommert2021stabm} over the sets selected in the outer folds of a
+cohort, counting only folds that selected at least one feature, with two
+features counted as similar when the absolute Pearson correlation of their expression is
+at least 0.9, so that exchanging a gene for a near-copy is not counted as instability.
+Its correction for chance is estimated by simulation, the \pkg{stabm} default, and it
+needs at least two non-empty sets. Panel size is the mean number of features selected per
+fold, over the folds that selected at least one.
+
+\paragraph{Ties in relevance.} At $q = 2$ a feature and the target are both split at
+their medians, so SU depends on a single cell of a two-by-two table and takes few
+distinct values: between \SuppDistinctSuMin{} and \SuppDistinctSuMax{} over the
+\SuppCodingMin{} to \SuppCodingMax{} protein-coding genes of a cohort. Many genes therefore
+tie on relevance, and the order in which tied genes are examined decides which of them
+enter the panel. \pkg{survfcbf} breaks these ties by the absolute Spearman correlation
+between the continuous feature and the martingale residuals, computed on the training
+set, which makes the selection independent of the column order of the data. A test in
+the package checks this invariance. With the earlier rule, which broke ties by column
+position, permuting the columns of the same simulated data changed the top-$K$ panel.
+
+\paragraph{What the $q = 2$ target encodes.} The martingale residual of patient $i$ is
+$\delta_i - \hat H_0(t_i)$. While the cumulative baseline hazard stays below one, every
+event has a positive residual and every censored patient one at or below zero, and among the
+censored the residual is highest for the shortest follow-up. Splitting at the median
+therefore puts in the upper class most of the events (all of them in cohorts where the
+hazard never accumulates to one) and, when events are fewer than half the patients, the
+censored patients followed for the shortest time (Table~\ref{S-tab:target}). The relevance of a gene then reflects follow-up as well as
+risk. In TCGA, follow-up depends on the centre and the date of inclusion, which may go
+with technical variation in expression, so this is one way a technical effect could
+enter the relevance.
+
+\paragraph{Whether the panel inherits follow-up.} \code{panel\_redundancy.R} tests whether
+this reaches the selected genes. Each ten-gene panel is chosen on the true outcome, and the
+downstream model is then trained and scored with the status reversed, so that censoring is
+the event. Its Harrell's C measures how well the panel predicts the length of follow-up,
+against 100 panels of ten random genes per cohort, each drawn from its own seeded stream
+(Table~\ref{S-tab:censoring}). The top-$K$ panel at $q = 2$ scores \SuppCensTopk{} and
+never exceeds the 95th percentile of the random panels (its highest percentile is
+\SuppCensTopkMaxPct, in \SuppCensTopkMaxCohort), while top-$K$ at $q = 4$ and at $q = 10$
+exceeds it in \SuppCensAboveQfour{} of eleven cohorts, MIM in \SuppCensAboveMim{} and mRMR
+in \SuppCensAboveMrmr. In METABRIC (\code{metabric\_censoring.R}) the $q = 2$ panel sits at
+the \SuppCensMetabricTopk{} percentile, and the $q = 10$ panel and mRMR at the
+\SuppCensMetabricQten. The random panels themselves average \SuppCensRandomMean, so
+follow-up is weakly associated with expression as a whole, in line with the centre effect
+of Section~\ref{S-sec:ml}.
+
+\paragraph{An alternative target.} \code{survfcbf\_select(target\_method =
+"ipcw\_binned")} bins the observed time and weights patients by the inverse probability of
+censoring, so censored patients carry no weight and follow-up does not enter the target
+as above (\code{target\_sensitivity.R}). On the same folds it gives the same
+discrimination (truncated Uno's C \SuppIpcwC{} against \SuppMartC), entirely different
+panels (Jaccard index \SuppIpcwJaccardMax{} in every fold) and panels that predict censoring
+at the level of random genes (\SuppIpcwCens, against \SuppMartCens{} for the martingale
+target). Across cohorts, the censoring C of the martingale panels rises with the share of
+censored patients in the upper class (Spearman \SuppGradMart), and that of the IPCW panels
+less so (\SuppGradIpcw). It does not change BRCA (\SuppBrcaMartCens{} and
+\SuppBrcaIpcwCens).
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Cox model on censoring. Each ten-gene panel is selected on the true outcome over
+the protein-coding features, and the ridge Cox model is trained and scored with censoring as
+the event, on the folds of the matched panel size analysis. Harrell's C over the eleven
+TCGA cohorts: mean, minimum and maximum. Percentile: mean over cohorts of the panel's
+percentile among the 100 random ten-gene panels of its cohort. Above 95th: cohorts in which
+the panel exceeds the 95th percentile. METABRIC: the same percentile in METABRIC. Null fits:
+folds, out of 55 per panel (5,500 for the random panels), in which the model fell back to
+the null model. n.r., not run.}
+\label{S-tab:censoring}
+\input{generated/tab_censoring}
+\end{table}
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Composition of the upper class of the $q = 2$ target, computed on each whole
+TCGA cohort. Censored: censored patients in the upper class, as a count and as a share of
+the class. Follow-up, in days: median follow-up of the censored patients in the upper and
+in the lower class, and median follow-up of the cohort by reverse Kaplan-Meier
+(\SuppFollowMin{} to \SuppFollowMax{} days).}
+\label{S-tab:target}
+\input{generated/tab_target}
+\end{table}
+
+\section{Results per cohort}\label{S-sec:percohort}
+
+Tables~\ref{S-tab:unoc} to \ref{S-tab:failures} give the result of every selector in every
+cohort on the published split (seed 1), with the untruncated Uno's C. The panel sizes, failures and stability quoted in the Application Note
+come from these tables. Its discrimination figures come from the ten-split analysis with
+the truncated C (Section~\ref{S-sec:bayes}, Table~\ref{S-tab:rcvcohort}).
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Uno's C per cohort, untruncated, on the published split: mean (standard error)
+over the five outer test folds. An
+asterisk marks results scored on fewer than five folds, because the other folds failed
+(Table~\ref{S-tab:failures}), and a value without a standard error comes from a single
+fold. n.m., no fold produced a model. n.r., not run. The means are over the cohorts with
+a value, counted in the row below them.}
+\label{S-tab:unoc}
+\input{generated/tab_unoc}
+\end{table}
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Integrated Brier score per cohort (lower is better), mean (standard error) over
+the five outer test folds. Symbols as in Table~\ref{S-tab:unoc}.}
+\label{S-tab:ibs}
+\input{generated/tab_ibs}
+\end{table}
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Selection stability per cohort, over the sets selected on the outer training
+sets, counting only folds that selected at least one feature. n.m., fewer than two folds
+selected a feature.}
+\label{S-tab:stability}
+\input{generated/tab_stability}
+\end{table}
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Panel size per cohort, the mean number of features selected per outer fold,
+over the folds that selected at least one. n.m., no fold selected a feature.}
+\label{S-tab:panel}
+\input{generated/tab_panel}
+\end{table}
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Failed folds and, in brackets, null-fit folds per cohort, out of five. A failed
+fold produced no prediction. A null-fit fold produced the same predicted survival curve
+for every test patient (Section~\ref{S-sec:ml}).}
+\label{S-tab:failures}
+\input{generated/tab_failures}
+\end{table}
+
+\section{Cross-cohort comparison and power}\label{S-sec:bayes}
+
+\paragraph{Bayesian signed-rank test.} The cross-cohort comparisons use the Bayesian
+signed-rank test of \citet{benavoli2017}, as implemented in
+\code{bayes\_signed\_rank()}: a Dirichlet-process posterior over the per-cohort paired
+differences, with a pseudo-observation at zero of prior weight 0.5 and 50{,}000
+posterior draws. Each region (\pkg{survfcbf} better, practically equivalent, rival
+better) is summarised by the share of draws in which it holds the largest posterior
+mass, the summary of the reference implementation, and a region is declared when that
+share exceeds 0.95. The region of practical equivalence (ROPE) is $\pm 0.02$ in Uno's C
+and $\pm 0.05$ in stability. A cohort enters a comparison only when both selectors have a
+value in it (Table~\ref{S-tab:bayes}). The 0.95 rule is applied to \SuppNComparisons{}
+comparisons in the tables of this supplement (Tables~\ref{S-tab:rcv}, \ref{S-tab:bayes},
+\ref{S-tab:cardinf} and~\ref{S-tab:rcvmatched}), and it does not control an error rate
+across them.
+
+\paragraph{Repeated cross-validation.} A single five-fold split leaves resampling noise in
+every paired difference. \code{repeated\_cv\_main.R} repeats the split \SuppRcvSplits{}
+times per cohort (seeds 1 to 10, seed 1 the published split) for \code{top}-$K$ and the
+three rankers on the full feature set, and \code{repeated\_cv.R} does the same at the
+matched sizes $K = 5$, 10 and 20 on the protein-coding features, with mRMR and with MIM
+and mRMR on the two-bin target (Section~\ref{S-sec:cardinality}). A cohort's score is its
+mean over the ten splits, and the Bayesian test runs on those means
+(Tables~\ref{S-tab:rcv} and~\ref{S-tab:rcvcohort}). In the headline comparison the gap in
+truncated Uno's C is \SuppGapVar{} (95\% $t$ interval \SuppGapLoVar{} to \SuppGapHiVar)
+against the variance filter, \SuppGapCar{} (\SuppGapLoCar{} to \SuppGapHiCar) against CAR
+and \SuppGapMim{} (\SuppGapLoMim{} to \SuppGapHiMim) against MIM, decided for the ranker in
+all three. With the untruncated C the three comparisons stay undecided. METABRIC
+(\code{metabric\_repeated\_cv.R}) shows a gap of \SuppMetabricGapMin{} to
+\SuppMetabricGapMax{} in every one of its ten splits. The integrated Brier score of
+\code{top}-$K$ is \SuppIbsGapMin{} to \SuppIbsGapMax{} higher than that of the rankers, worse
+in \SuppIbsWorseMin{} to \SuppIbsWorseMax{} of eleven cohorts but with 95\% $t$ intervals
+that include zero, and in METABRIC it is \SuppMetabricIbsMin{} to \SuppMetabricIbsMax{}
+higher in all ten splits. On METABRIC's published split a
+clinical model of age, Nottingham prognostic index, ER status, HER2 copy-number gain and
+PAM50 subtype, fitted with the same harness on the \SuppClinN{} patients with complete
+clinical data (\SuppClinEvents{} events, \code{metabric\_clinical.R}), reaches a truncated C
+of \SuppClinC, the ten-gene panel alone \SuppClinPanelC{} and both together \SuppClinBothC,
+so the panel adds \SuppClinAdd{} (standard error \SuppClinAddSe) to the clinical model.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Headline comparison over ten five-fold splits: \pkg{survfcbf} in top-$K$ mode
+against the rankers at the ten-percent cut-off, on the cohort means over the splits.
+Difference: mean paired difference, \pkg{survfcbf} minus the rival, with its standard error
+over the eleven cohorts. Cohorts: cohorts favouring \pkg{survfcbf} and the rival. The next
+three columns are the posterior probabilities of the Bayesian signed-rank test, in bold
+above 0.95. Splits: splits in which the same comparison, analysed on that split alone,
+reaches the same verdict. The integrated Brier score (lower is better) has no region of
+practical equivalence and is shown without the test.}
+\label{S-tab:rcv}
+\input{generated/tab_rcv}
+\end{table}
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Truncated Uno's C per cohort over ten five-fold splits: mean (standard deviation
+over the splits). METABRIC ran on a workstation (Section~\ref{S-sec:software}).}
+\label{S-tab:rcvcohort}
+\input{generated/tab_rcv_cohort}
+\end{table}
+
+\paragraph{Summary of the posterior.} The posterior can also be summarised by the mean
+mass of each region over the draws, which is the default of some implementations. Under
+that summary the probability that the rival is better in the headline comparison is
+\SuppMeanVar{} for the variance filter, \SuppMeanCar{} for CAR and \SuppMeanMim{} for MIM,
+so \SuppMeanDecidedText{} at 0.95. The $t$ intervals above do not depend on that choice,
+and none of them includes zero.
+
+\paragraph{Width of the ROPE.} Table~\ref{S-tab:rope} repeats the comparisons with ROPEs of
+$\pm 0.01$ and $\pm 0.03$ in Uno's C and $\pm 0.03$ and $\pm 0.07$ in stability. The
+headline comparison is decided at $\pm 0.01$ and $\pm 0.02$ and not at $\pm 0.03$. At every
+matched size the practical equivalence with mRMR holds at $\pm 0.02$ and $\pm 0.03$ (the
+table shows ten genes).
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Verdict of the 0.95 rule by width of the ROPE, on the cohort means over ten
+splits: \pkg{survfcbf} better, rival better, equivalent (practical equivalence) or
+undecided. ``Mean'': the mean-mass summary of the posterior instead of the argmax.}
+\label{S-tab:rope}
+\input{generated/tab_rope}
+\end{table}
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Bayesian signed-rank comparison of \pkg{survfcbf} in top-$K$ mode with every other
+selector across the TCGA cohorts, on the published split with the untruncated Uno's C.
+Each probability is the share of posterior draws in which the region holds the largest
+mass, as written by \code{analyze\_cross\_dataset.R}, rounded to two decimals.
+Probabilities above 0.95, the decision threshold, are in bold.}
+\label{S-tab:bayes}
+\input{generated/tab_bayes}
+\end{table}
+
+\paragraph{Power.} How many cohorts a comparison needs depends on how much the paired
+difference between two selectors varies from cohort to cohort (\code{power\_analysis.R}).
+That standard deviation was estimated on the cohort means of the truncated C over ten
+splits, separately for the headline comparison (\code{top}-$K$ against the three rankers,
+\SuppPairsHead{} pairs, from \SuppSigmaHeadMin{} to \SuppSigmaHeadMax, median
+\SuppSigmaHead) and for the matched sizes (the same rankers at $K = 5$, 10 and 20,
+\SuppPairsMatched{} pairs, median \SuppSigmaMatched, from \SuppSigmaMatchedMin{} to
+\SuppSigmaMatchedMax, the largest \SuppSigmaMatchedMaxWhat). A median over every pair of
+selectors would depend on which variants a run contains, since near-identical variants
+give very small standard deviations, so the other pairs enter no estimate. Panel A of
+Table~\ref{S-tab:power} gives the cohorts a two-sided paired test at level 0.05 needs to
+detect a difference, from the normal approximation
+$N = (z_{1-\alpha/2} + z_{1-\beta})^2 \sigma^2 / \Delta^2$
+\citep{boulesteix2017}. Eleven cohorts give such a test 80\% power for a difference of
+\SuppDeltaHead{} in the headline comparison, and detecting 0.03 needs
+\SuppNeedThreeHead{} cohorts there, \SuppNeedThreeMatched{} at the matched sizes and
+\SuppNeedThreeMatchedMax{} at their largest standard deviation. Panel B gives the power of
+the 0.95 rule of the Bayesian test at each median, from \SuppPowerReps{} simulated
+benchmarks per cell with normally distributed paired differences, each test run with
+1{,}500 posterior draws. With eleven cohorts it declares the better selector in a share of
+\SuppPowerHeadThree{} of the simulated benchmarks at a headline difference of 0.03 and of
+\SuppPowerHeadFive{} at 0.05. On the published split alone, with the untruncated C, the
+standard deviations of the paired differences have a median of \SuppSdLegacy.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Number of cohorts needed to resolve a difference in truncated Uno's C, for the
+headline comparison and for the matched sizes. Panel A: cohorts a paired test needs at
+80\% and 90\% power at the median standard deviation of paired differences, and at 80\%
+power at the largest one. Panel B: share of simulated benchmarks in which the Bayesian
+signed-rank test declares the better selector, with its Monte Carlo standard error in
+brackets.}
+\label{S-tab:power}
+\input{generated/tab_power}
+\end{table}
+
+\section{Matched panel size}\label{S-sec:cardinality}
+
+Comparing selectors at their own panel sizes mixes the effect of the selection rule with
+that of the panel size. To separate them, \pkg{survfcbf} and the three rankers were cut
+to a panel size $K \in \{5, 10, 20, 50, 100, 500, 2000\}$ and run through the same
+harness, with the same
+five outer folds per cohort, the same seed and the same downstream model
+(\code{cardinality\_curve.R}). The rankers keep their first $K$ features. \pkg{survfcbf}
+runs in top-$K$ mode at $q = 2$ up to $K = 100$, a bound set to limit its cost. This
+analysis uses the protein-coding RNA features only (\SuppCodingMin{} to \SuppCodingMax{}
+per cohort, Table~\ref{S-tab:cohorts}). No fold failed at any size.
+
+\paragraph{The size of a top-$K$ panel.} In top-$K$ mode the relevance threshold is zero,
+so the Markov-blanket pruning runs over every feature, and it stops early once $K$
+predominant features remain. When the whole feature set holds fewer than $K$ predominant
+features, the panel is smaller than $K$. At $q = 2$ this happens in
+\SuppCardShortTwenty{} cohorts at $K = 20$ and in every cohort from $K = 50$, where the
+complete set of predominant features holds \SuppCardPanelMin{} to \SuppCardPanelMax{}
+genes (mean \SuppCardPanelMean). The panel size is therefore matched exactly up to
+$K = \SuppCardExactMax$, nearly at $K = 20$, and not beyond: the rows with $K \ge 50$
+compare panels of about \SuppCardPanelMean{} genes with ranker panels of $K$ genes
+(Table~\ref{S-tab:cardinality}, panel A).
+
+Table~\ref{S-tab:cardinality} gives the means over cohorts on the published split, with
+the untruncated C, and the number of null fits, folds in which the inner cross-validation
+of the downstream model found no penalty that improved on the null model.
+Table~\ref{S-tab:cardinf} gives the paired comparisons of that split, with the Bayesian
+signed-rank test of Section~\ref{S-sec:bayes} (ROPE $\pm 0.02$ in Uno's C). The comparisons
+at the matched sizes $K = 5$, 10 and 20 were repeated over ten splits with the truncated C
+(\code{repeated\_cv.R}, Table~\ref{S-tab:rcvmatched}). There \pkg{survfcbf} is
+\SuppRcvVarLo{} to \SuppRcvVarHi{} ahead of the variance filter and \SuppRcvCarLo{} to
+\SuppRcvCarHi{} ahead of CAR, and \SuppRcvMimLo{} to \SuppRcvMimHi{} behind MIM, with no
+comparison decided except practical equivalence with CAR at $K = 20$. The null fits of the
+variance filter (\SuppRcvNullVarLo\% to \SuppRcvNullVarHi\% of folds at these sizes,
+against \SuppRcvNullTopk{} fold in \SuppRcvNullTopkFolds{} for \pkg{survfcbf}) pull its mean
+towards 0.5 and are part of what puts it behind.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Selectors cut to a panel size $K$, over the eleven TCGA cohorts and their
+protein-coding features. The rankers keep exactly $K$ features. \pkg{survfcbf} keeps
+fewer when the feature set holds fewer than $K$ predominant features (panel A, mean and
+range over cohorts of the mean panel per fold). n.r., not run.}
+\label{S-tab:cardinality}
+\input{generated/tab_cardinality}
+\end{table}
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Paired comparison of \pkg{survfcbf} with each ranker cut to a panel size $K$, on
+the published split with the untruncated Uno's C.
+\pkg{survfcbf} size: its mean panel size, which falls short of $K$ from $K = 20$
+(Section~\ref{S-sec:cardinality}). Difference: mean paired difference in Uno's C,
+\pkg{survfcbf} minus the rival, with its standard error over cohorts. Cohorts: cohorts favouring \pkg{survfcbf} and the rival. The
+last three columns are the posterior probabilities of the Bayesian signed-rank test. No
+region exceeds 0.95, so no comparison is decided with eleven cohorts.}
+\label{S-tab:cardinf}
+\input{generated/tab_cardinality_inference}
+\end{table}
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Paired comparison of \pkg{survfcbf} (top-$K$, $q = 2$) with each rival cut to the
+same panel size $K$, on the cohort means over ten five-fold splits. Difference: mean paired
+difference, \pkg{survfcbf} minus the rival, with its standard error over the eleven cohorts.
+Cohorts: cohorts favouring \pkg{survfcbf} and the rival. Verdict: the 0.95 rule of the
+Bayesian signed-rank test, with a ROPE of $\pm 0.02$ in Uno's C and $\pm 0.05$ in
+stability.}
+\label{S-tab:rcvmatched}
+\input{generated/tab_rcv_matched}
+\end{table}
+
+\paragraph{Redundancy within the panel and mRMR.} \code{panel\_redundancy.R} reruns the
+sizes $K = 5$, 10 and 20 on the same folds and adds mRMR (\code{MRMR} of \pkg{praznik} on
+the discretised martingale residuals that MIM uses, \citealp{kursa2021}, keeping the first
+$K$ features of its greedy order), MIM and mRMR on the two-bin target of \code{top}-$K$
+($q = 2$), and top-$K$ at $q = 4$ and $q = 10$ for $K = 10$. For each fold it records two
+measures of redundancy on the training rows: the mean absolute Pearson correlation
+between the selected genes, and the share of gene pairs with $|r| \ge 0.5$. Its
+untruncated C and stability for \pkg{survfcbf} and the three rankers reproduce
+Table~\ref{S-tab:cardinality} exactly. Table~\ref{S-tab:redundancy} gives the means over
+cohorts. At $K = 10$ Markov-blanket pruning halves the redundancy of MIM on the same
+two-bin target, which scores the same relevance without pruning (mean $|r|$ \SuppRedTopk{}
+against \SuppRedMimQtwo, lower in \SuppRedBelowMimQtwo{} of eleven cohorts, and
+\SuppRedMim{} for MIM at its default binning), and the share of strongly correlated pairs
+falls from \SuppShareMim\% to \SuppShareTopk\%. mRMR (\SuppRedMrmr, and \SuppRedMrmrQtwo{}
+at $q = 2$) and CAR (\SuppRedCar) reach a similar or lower level, the first by penalising
+redundancy and the second by adjusting for the correlation between features, and mRMR at
+$q = 2$ is below \pkg{survfcbf} in all but \SuppRedBelowMrmrQtwo{} cohorts. Over ten splits
+(Table~\ref{S-tab:rcvmatched}), \pkg{survfcbf} and mRMR are practically equivalent in
+truncated Uno's C at every size, at the default binning and at $q = 2$. \pkg{survfcbf} is
+the more stable against mRMR at its default binning, decided at every size, and
+practically equivalent to it at $q = 2$.
+
+\paragraph{What the trace records.} With the panel, \pkg{survfcbf} returns every gene it
+pruned and the panel gene that pruned it. \code{panel\_groups.R} reads these groups for the
+ten-gene panels of the eleven cohorts, which it reproduces in all \SuppGrpFolds{} folds. At
+$q = 2$ the relevance of a gene is small, so the pruning condition holds at modest
+correlation. Across cohorts, the median absolute correlation of a pruned gene with its
+panel gene ranged from \SuppGrpRMin{} to \SuppGrpRMax, against a mean of \SuppGrpBgMin{}
+to \SuppGrpBgMax{} between a panel gene and all other genes, and \SuppGrpHalfMin\% to
+\SuppGrpHalfMax\% of pruned genes reached 0.5. In every cohort the median pruned gene was
+among the \SuppGrpTopPct\% of genes most correlated with its panel gene. FCBF assigns each
+pruned gene to the most relevant panel member that satisfies the condition, not to the
+closest one, and that member was also the closest in \SuppGrpClosestMin\% to
+\SuppGrpClosestMax\% of cases. Of the panel genes, \SuppGrpEmpty\% pruned nothing, and the
+largest group held \SuppGrpMaxGroup{} genes. The trace therefore marks neighbourhoods of
+the panel genes rather than near-copies.
+
+\paragraph{The binning of the target.} Against the default $q = 2$, top-$K$ at $q = 4$ and
+$q = 10$ changes the mean truncated Uno's C of the published split by \SuppQfourC{} and
+\SuppQtenC, with per-cohort differences from \SuppQdiffMin{} to \SuppQdiffMax, and lowers
+stability in \SuppQfourLessStable{} and \SuppQtenLessStable{} of eleven cohorts. At
+$q = 10$ the panel is also more redundant in \SuppQtenMoreRedundant{} cohorts, and both
+finer binnings give panels that predict censoring beyond the 95th percentile of random
+panels in \SuppCensAboveQfour{} cohorts (Section~\ref{S-sec:selectors}). The default
+$q = 2$ is kept for its stability, its lower redundancy and because its panels carry no
+follow-up signal beyond that of random genes, not for discrimination.
+
+\paragraph{The similarity threshold of the stability index.} The index counts two genes as
+similar at $|r| \ge 0.9$. At 0.7 and 0.5 (\code{stability\_theta.R}, the threshold 0.5
+with \SuppThetaDrawsLow{} draws for the correction for chance instead of
+\SuppThetaDraws) the ordering does not change (Table~\ref{S-tab:theta}). \pkg{survfcbf}
+stays below MIM on the two-bin target in \SuppThetaLowerMin{} or \SuppThetaLowerMax{} of
+eleven cohorts, and the gap widens as the threshold falls (\SuppThetaGapNine,
+\SuppThetaGapSeven, \SuppThetaGapFive), because a pruned panel holds no near-duplicates
+for a looser threshold to match. At 0.9 the run reproduces Table~\ref{S-tab:redundancy}
+exactly.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Matched panel sizes with mRMR and with MIM and mRMR on the two-bin target, and
+the redundancy within each panel, as means over the eleven TCGA cohorts and their
+protein-coding features, on the published split. \pkg{survfcbf}: top-$K$ at $q = 2$ unless
+stated. Uno's C: truncated. Mean $|r|$: mean absolute Pearson correlation between the
+selected genes. $|r| \ge 0.5$: share of gene pairs at or above 0.5. Both are computed on
+the training rows of each fold. Null fits: folds, out of 55, in which the downstream model
+fell back to the null model.}
+\label{S-tab:redundancy}
+\input{generated/tab_redundancy}
+\end{table}
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Selection stability at ten genes by the similarity threshold $\theta$ of the
+index, as means over the eleven TCGA cohorts on the published split. At $\theta = 0.5$ the
+correction for chance uses \SuppThetaDrawsLow{} draws instead of \SuppThetaDraws, so those
+values are approximate.}
+\label{S-tab:theta}
+\input{generated/tab_theta}
+\end{table}
+
+\section{Gene-set enrichment}\label{S-sec:gsea}
+
+For each TCGA cohort, the per-gene score of every ranker was computed once on the whole
+cohort over its protein-coding features, defined by the HGNC list of protein-coding genes
+\citep{seal2023} (\SuppCodingIds{} Ensembl identifiers, snapshot of \SuppCodingDate). The
+score of \pkg{survfcbf} is the relevance of its top-$K$ mode, the SU of each gene with
+the martingale residuals at $q = 2$, with ties ordered by the same Spearman key as the
+selector (Section~\ref{S-sec:selectors}). The baselines use their own scores: the
+variance, the absolute CAR score and the mutual information. Genes were mapped from
+Ensembl identifiers to symbols with \pkg{org.Hs.eg.db}. In each cohort
+\SuppNoSymbolMin{} to \SuppNoSymbolMax{} genes have no symbol and \SuppDupMin{} to
+\SuppDupMax{} map to a symbol already taken, and both are dropped
+(Table~\ref{S-tab:gsea}). The remaining genes were ranked by score and tested with
+\pkg{fgsea} \citep{korotkevich2016}
+against the Hallmark \citep{liberzon2015} and oncogenic signature (C6)
+\citep{liberzon2011} collections of MSigDB, \SuppSetsTotal{} sets in all
+(\SuppSetsHallmark{} Hallmark and \SuppSetsCsix{} C6, \pkg{msigdbr} \SuppMsigdbrVersion,
+snapshot of \SuppMsigdbDate). The test is one-sided (\code{scoreType = "pos"}), so a set
+is enriched when its genes concentrate at the top of the ranking, and only sets of 5 to
+500 genes are tested. $P$ values are adjusted by the Benjamini-Hochberg procedure within
+each cohort and ranking. The analysis describes the scores of whole cohorts and makes no
+prediction, so it is not cross-validated.
+
+A preranked test of this kind asks whether a set's genes sit high in a ranking, and gene
+sets are groups of co-expressed genes, so any ranking that follows co-expression enriches
+them. The variance score does not use the outcome, and its ranking is enriched in
+\SuppGseaVariance{} of eleven cohorts, more than any ranking that does. Enrichment of the
+\pkg{survfcbf} ranking, in \SuppGseaSurvfcbf{} of eleven cohorts, therefore shows that its
+relevance follows co-expressed programmes, not that those programmes carry survival
+signal. Testing that would need a null that permutes the outcome rather than the genes.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Gene sets with a Benjamini-Hochberg adjusted $P < 0.05$, per cohort and ranking.
+Genes: protein-coding RNA features of the cohort, those lost in the mapping to symbols
+(no symbol or a duplicated one) and those ranked. Sets tested: sets of 5 to 500 genes
+after mapping to the cohort's genes.}
+\label{S-tab:gsea}
+\input{generated/tab_gsea}
+\end{table}
+
+\section{Simulation}\label{S-sec:simulation}
+
+\paragraph{Design.} The simulation grid
+(tier \code{cesga\_core} of \code{grid\_lib.R}) varies one factor at a
+time around a reference configuration with $n = 600$, 50\% censoring and $p = 2{,}000$:
+the sample size ($n$ from 150 to 2{,}400), the censored fraction (20\%, 50\% and 70\%)
+and the number of features ($p$ = 200, 1{,}000 and 5{,}000). The reference configuration
+belongs to both the sample size and the censoring axes and is counted once, which gives
+\SuppSimConfigs{} distinct configurations with \SuppSimReps{} replicates each,
+\SuppSimDatasets{} datasets in all. Each dataset has three driver features, each the first
+member of a cluster of six features with latent correlation 0.8 (the driver and five
+redundant copies without an effect of their own), four blocks of eight distractor features
+with correlation 0.7 and no effect, a pair of independent features whose product enters
+the hazard, and independent noise features up to $p$. Features have Gaussian marginals.
+Event times follow a Weibull proportional hazards model with shape 1.5, with the effect
+size calibrated to a concordance of 0.70 before censoring, and censoring times are
+independent and exponential, calibrated to the target fraction.
+
+\paragraph{Evaluation.} Each dataset goes through the harness of the real cohorts, with
+five outer folds and the ridge Cox model, and six selectors: \pkg{survfcbf} in permutation
+mode and with tuned $q$ (chosen from $\{4, 7, 10\}$ by the untruncated Uno's C of the
+downstream model over three inner folds, with 100 permutations), and the four baselines. The top-$K$ mode is evaluated on the same datasets at a matched panel size,
+below. Table~\ref{S-tab:simulation}
+reports two failure measures for the two self-sizing \pkg{survfcbf} modes, with their
+Monte Carlo standard errors. The Application Note quotes the first: over all datasets,
+the permutation mode returned an empty panel in every fold for \SuppSimEmptyPerm\% of
+them.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Failures of the two self-sizing \pkg{survfcbf} modes in the simulation grid, as
+percentages of the \SuppSimReps{} replicates of each configuration, with Monte Carlo
+standard errors in brackets. Empty: no outer fold selected any feature. All failed: every
+outer fold failed, because it selected fewer than the two features the downstream model
+needs. Events: mean (Monte Carlo standard error). $^{\dagger}$Reference configuration.}
+\label{S-tab:simulation}
+\input{generated/tab_simulation}
+\end{table}
+
+\paragraph{Matched panel size.} \code{sim\_matched\_size.R} runs top-$K$ at $q = 2$, mRMR,
+MIM and mRMR on the same two-bin target, and the three rankers on the same
+\SuppSimDatasets{} datasets, folds and downstream model,
+at $K = 3$, the number of driver clusters, and at $K = 10$. Each fold's selection is scored
+against the cluster-level truth with \code{score\_selection\_clusterwise()}. A driver
+cluster is recovered when any of its members is selected, the false discovery rate is the
+share of distractor and noise features among those selected, copies are the members of a
+driver cluster selected beyond the first, and exact recovery requires every driver cluster
+and no distractor or noise feature, copies allowed (Table~\ref{S-tab:simmatched}). At
+$K = 10$ at most three of the ten places can hold distinct driver clusters, so the false
+discovery rate and exact recovery favour a selector that fills the panel with copies, and
+only recovery and copies compare the selectors on equal terms there. Top-$K$ recovers the
+most driver clusters at both sizes (\SuppSimTopkThree{} and \SuppSimTopkTen) and never
+selects two members of one cluster. mRMR at its default binning also avoids copies, but
+with a higher false discovery rate. mRMR on the same two-bin target comes within 0.02
+(\SuppSimMrmrQtwoThree{} and \SuppSimMrmrQtwoTen) with almost no copies
+(\SuppSimMrmrQtwoCopies{} per fold at $K = 10$), so most of the gain over the rankers comes
+from the binning, not from pruning against averaging. MIM on that target recovers more
+than at $q = 10$ but fills the panel with copies. The variance filter recovers almost
+nothing, because the simulator decouples marginal variance from relevance, and its
+downstream model fell back to the null model in \SuppSimMNullVar{} of \SuppSimMFolds{} folds
+(\SuppSimMNullTopk{} for top-$K$). The simulator builds in the redundancy structure that the
+pruning assumes, interchangeable clusters with one effect each, so these results show the
+mechanism at work, not the advantage to expect on expression data, where
+Section~\ref{S-sec:cardinality} finds no gain in redundancy over mRMR and CAR.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{\pkg{survfcbf} top-$K$ ($q = 2$), mRMR, MIM and mRMR on the two-bin target, and
+the rankers at a matched panel size $K$ on the \SuppSimDatasets{} simulated datasets, as
+means with Monte Carlo standard errors in brackets. Recovered: share of the three driver
+clusters with a member selected. FDR: share of the selected features that are distractors
+or noise. Copies: members of a driver cluster selected beyond the first. Exact: share of
+folds that recover every driver cluster with no distractor or noise feature. Uno's C:
+truncated.}
+\label{S-tab:simmatched}
+\input{generated/tab_sim_matched}
+\end{table}
+
+\section{Validation against the reference implementation}\label{S-sec:validation}
+
+The information-theoretic core of \pkg{survfcbf} was compared with the \pkg{FCBF} package
+\citep{fcbfbioc}, distributed by Bioconductor until release 3.19, on classification data,
+where both implement the same algorithm
+(\code{fcbf\_crossvalidation.R}). Every check is a fixed
+list of test cases drawn with a fixed seed. Panel A of Table~\ref{S-tab:validation}
+compares the two packages. Symmetrical uncertainty agrees to $\SuppSuMaxDiff$ on random
+pairs of factors. Selections, compared as the same features in the same order, agree on
+every generated dataset without an exact SU tie. At an exact tie, when the SU between two
+features equals the relevance of the less relevant one, the published $\ge$ rule
+\citep{yu2003} removes that feature and the \pkg{FCBF} code, which tests $>$, keeps it.
+Datasets with such a tie are therefore left out of that check. A second sweep of 300 new
+datasets, drawn with another seed, allows duplicated features so that ties occur, and
+every dataset in which the two selections differ contains an exact tie. The single-cell dataset scDengue
+\citep{zanini2018}, shipped with \pkg{FCBF}, was discretised with that package's own
+\code{discretize\_exprs()}, so that discretisation cannot cause a difference. Panel B checks
+that the top-$K$ mode is an exact early stop, returning the first $K$ features of the
+full run.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Validation of the information-theoretic core. Compared: datasets, thresholds or
+values of $K$ compared. At a tie: mismatches at an exact SU tie. Skipped: generated
+datasets left out of the check because they contain an exact tie.}
+\label{S-tab:validation}
+\input{generated/tab_validation}
+\end{table}
+
+\section{Runtime}\label{S-sec:runtime}
+
+Selection time was measured on one simulated dataset per value of $p$, with $n = 300$,
+70\% censoring and the cluster structure of Section~\ref{S-sec:simulation}
+(\code{runtime\_scaling.R}). Each time is the median of five elapsed wall-clock
+measurements on one workstation, for \pkg{survfcbf} in top-$K$ mode ($K = 10$, $q = 2$)
+and for the rankers cut at ten per cent of $p$ (Table~\ref{S-tab:runtime}). The scaling
+exponent of \pkg{survfcbf}, \SuppRuntimeExponent, is the slope of a least-squares fit of
+$\log$ time on $\log p$, over five values of $p$, so it is a coarse estimate: the cost is
+close to linear in $p$. On real data the same selection took \SuppRealTimeMin{} to
+\SuppRealTimeMax{} seconds per outer fold in the TCGA cohorts ($p$ from \SuppRealPMin{} to
+\SuppRealPMax) and \SuppMetabricTime{} seconds in METABRIC, on the cluster.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Selection time in seconds by number of features, $n = 300$.}
+\label{S-tab:runtime}
+\input{generated/tab_runtime}
+\end{table}
+
+\section{Software and computation}\label{S-sec:software}
+
+All analyses use R \SuppLockR. The cross-validated benchmarks, the simulation grid and
+the per-gene scores of the gene-set enrichment ran on the FinisTerrae III supercomputer
+of CESGA, in its R 4.5.2 and Bioconductor 3.21 container with a separate package library.
+In that library \pkg{mlr3}, \pkg{mlr3proba}, \pkg{mlr3extralearners}, \pkg{carSurv},
+\pkg{praznik} and \pkg{stabm} have the versions of Table~\ref{S-tab:software}, and
+\pkg{glmnet} is at 5.0. The other analyses, every table of this supplement and the
+figure of the Application Note run on a workstation in the environment pinned
+by the repository's \code{renv.lock} (R \SuppLockR, Bioconductor \SuppLockBioc), whose
+main packages are listed in Table~\ref{S-tab:software}. The \pkg{mlr3proba} and \pkg{mlr3extralearners}
+packages are not on CRAN, and the lockfile fixes them to their GitHub commits. Every
+table, and the figure, regenerates from the result files tracked in the repository, without
+access to the cluster or to the network. The repeated cross-validation of METABRIC, its
+clinical reference and its censoring control ran on the workstation, with \pkg{glmnet}
+4.1-10 instead of the 5.0 of the cluster. Its first split reproduces the selections of the
+published METABRIC run exactly, and its Uno's C differs by at most
+\SuppMetabricGlmnetDiff, the effect of the \pkg{glmnet} version on the ridge fit with about
+two thousand features. The repeated cross-validation of TCGA, the matched panel sizes
+with MIM and mRMR on the two-bin target, the random panels, the alternative target, the
+centre analysis, the stability threshold, the groups of the pruning trace and the
+simulation at matched size also ran on the cluster, in the same container and package
+library, and \code{panel\_redundancy.R} saved the package versions of each job beside its
+results.
+
+\paragraph{Rerun with the Spearman tie-break.} The tie-break of
+Section~\ref{S-sec:selectors} was added after the first runs. The \pkg{survfcbf} rows of
+the TCGA benchmark (top-$K$ and permutation modes), of the matched panel size analysis and
+of METABRIC, and the \pkg{survfcbf} scores of the gene-set enrichment, were then rerun
+with it, and only those rows were replaced (\code{swap\_rerun\_rows.R}). This is valid
+because a selector's row depends only on the data, the seed and its own code: the folds,
+the per-fold seeds and the similarity matrix of the stability index do not depend on the
+other selectors. The rerun included a control, top-$K$ with the old column-order rule,
+which reproduced the stored top-$K$ rows exactly in every cohort and in METABRIC. Each
+rerun job saved its \code{sessionInfo()} beside its results. The tuned-$q$ variant of the first runs on the real cohorts was not rerun, and its rows, still
+in \code{benchmark\_realdata.csv}, are not reported. The simulation grid was not rerun
+either. Instead, \code{grid\_tiebreak\_check.R} reran the permutation mode with both rules
+at the same threshold on \SuppTieCheckReps{} replicates of each of the
+\SuppTieCheckConfigs{} grid configurations (\SuppTieCheckDatasets{} datasets), on each
+outer training set, at the default $q$ and at each $q$ of the tuned grid. All
+\SuppTieCheckN{} selections were the same set in the same order. In none of them did two
+features above the threshold tie on relevance (\SuppTieCheckMulti{} had at least two such
+features), so at $q \geq 4$ the tie-break had nothing to decide in these data.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Main R packages, with the versions pinned in \code{renv.lock}.}
+\label{S-tab:software}
+\input{generated/tab_software}
+\end{table}

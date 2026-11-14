@@ -1,0 +1,3 @@
+"cohort","n","events","p","target","share_censored_upper","uno_c","uno_c_trunc","harrell_c","ibs","stability","parsimony","mean_abs_r","harrell_c_censoring","n_failed","n_null_fit","n_null_fit_censoring","jaccard_between_targets"
+"KIRC",249,62,16206,"martingale",0.5,0.59534775018692,0.583104878664017,0.596765941381454,0.181236987443198,0.089279725885456,10,0.122902068698804,0.513787186145782,0,0,1,0
+"KIRC",249,62,16206,"ipcw",0.5,0.608441054821014,0.556717854738235,0.557283216714859,0.185187357038755,0.0992873317039406,10,0.204994457378715,0.578584432601929,0,0,0,0

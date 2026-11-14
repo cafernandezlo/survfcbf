@@ -1,0 +1,140 @@
+% Bibliography for the survfcbf Application Note. No metadata was typed from memory.
+% Every hand-typed entry carries a comment naming the record it was verified against.
+% The rest were fetched as BibTeX from the CrossRef REST API (2026-10-26, herrmann2020
+% on 2026-11-06), rekeyed, with the month field dropped and the url field removed where
+% it only repeated the DOI, and the ISSN field removed (the journal restyles references).
+% Author lists longer than three are cut to the first three + others, the house style of
+% Bioinformatics (three names then "et al." in four 2025 articles checked in PMC on
+% 2026-11-20). JMLR entries keep journal, volume and pages without the URL, and the book
+% keeps its DOI without the ISBN, to fit the four-page limit.
+
+% Verified against the official JMLR page. JMLR papers of this period have no CrossRef record.
+@article{yu2004,
+  author  = {Yu, Lei and Liu, Huan},
+  title   = {Efficient Feature Selection via Analysis of Relevance and Redundancy},
+  journal = {Journal of Machine Learning Research},
+  volume  = {5},
+  pages   = {1205--1224},
+  year    = {2004}
+}
+
+% Verified against CrossRef (title, authors, journal, volume, article number 138, year).
+@article{boulesteix2017,
+  author  = {Boulesteix, Anne-Laure and Wilson, Rory and Hapfelmeier, Alexander},
+  title   = {Towards evidence-based computational statistics: lessons from clinical research on the role and design of real-data benchmark studies},
+  journal = {BMC Medical Research Methodology},
+  volume  = {17},
+  pages   = {138},
+  year    = {2017},
+  doi     = {10.1186/s12874-017-0417-2}
+}
+
+% Author, publisher and year from the DOI record, title from the package DESCRIPTION.
+% Deprecated in Bioconductor 3.19 (version 2.12.0) and removed in 3.20, so the DOI now
+% lands on the removed-packages page. The validation ran on version 1.99.1 from
+% github.com/lubianat/FCBF (commit 51b9600, pinned in renv.lock). Its R/ is identical to
+% 2.12.0 except for the deprecation message in zzz.R (compared on 2026-11-06).
+@misc{fcbfbioc,
+  author = {Lubiana, Tiago and Nakaya, Helder},
+  title  = {{FCBF}: Fast Correlation Based Filter for Feature Selection},
+  note   = {R package, in Bioconductor until release 3.19, code at \url{https://github.com/lubianat/FCBF}},
+  year   = {2018},
+  doi    = {10.18129/B9.bioc.FCBF}
+}
+
+% ---- fetched from CrossRef on 2026-10-26 (verified) ----
+% DOIs matched on title, journal, year and first author. The three cBioPortal papers
+% are the ones its FAQ asks users to cite (PMIDs 22588877, 23550210, 37668528 resolve
+% to these DOIs in Europe PMC). metabric2019 is cited by the brca_metabric study in
+% cBioPortal. gao2013 has no page in CrossRef, its article number pl1 is from Europe PMC.
+% debruijn2023 lists 72 authors in CrossRef, cut like the rest (see the header).
+% herrmann2020 is the source OpenML names for the TCGA datasets (e.g. data id 42279).
+
+@article{herrmann2020, title={Large-scale benchmark study of survival prediction methods using multi-omics data}, volume={22}, DOI={10.1093/bib/bbaa167}, number={3}, journal={Briefings in Bioinformatics}, publisher={Oxford University Press (OUP)}, author={Herrmann, Moritz and Probst, Philipp and Hornung, Roman and others}, year={2020} }
+
+@article{cerami2012, title={The {cBio} Cancer Genomics Portal: An Open Platform for Exploring Multidimensional Cancer Genomics Data}, volume={2}, DOI={10.1158/2159-8290.cd-12-0095}, number={5}, journal={Cancer Discovery}, publisher={American Association for Cancer Research (AACR)}, author={Cerami, Ethan and Gao, Jianjiong and Dogrusoz, Ugur and others}, year={2012}, pages={401--404} }
+
+@article{gao2013, title={Integrative Analysis of Complex Cancer Genomics and Clinical Profiles Using the {cBioPortal}}, volume={6}, DOI={10.1126/scisignal.2004088}, number={269}, journal={Science Signaling}, publisher={American Association for the Advancement of Science (AAAS)}, author={Gao, Jianjiong and Aksoy, Bülent Arman and Dogrusoz, Ugur and others}, year={2013}, pages={pl1} }
+
+@article{debruijn2023, title={Analysis and Visualization of Longitudinal Genomic and Clinical Data from the {AACR} {Project GENIE Biopharma Collaborative} in {cBioPortal}}, volume={83}, DOI={10.1158/0008-5472.can-23-0816}, number={23}, journal={Cancer Research}, publisher={American Association for Cancer Research (AACR)}, author={de Bruijn, Ino and Kundra, Ritika and Mastrogiacomo, Brooke and others}, year={2023}, pages={3861--3867} }
+
+@article{metabric2019, title={Dynamics of breast-cancer relapse reveal late-recurring {ER}-positive genomic subgroups}, volume={567}, DOI={10.1038/s41586-019-1007-8}, number={7748}, journal={Nature}, publisher={Springer Science and Business Media LLC}, author={Rueda, Oscar M. and Sammut, Stephen-John and Seoane, Jose A. and others}, year={2019}, pages={399--404} }
+
+% ---- fetched as BibTeX from CrossRef ----
+
+@inproceedings{yu2003,
+  author    = {Yu, Lei and Liu, Huan},
+  title     = {Feature Selection for High-Dimensional Data: A Fast Correlation-Based Filter Solution},
+  booktitle = {Proceedings of the Twentieth International Conference on Machine Learning (ICML-2003)},
+  address   = {Washington DC},
+  year      = {2003}
+}
+
+@article{bommert2021bib, title={Benchmark of filter methods for feature selection in high-dimensional gene expression survival data}, volume={23}, DOI={10.1093/bib/bbab354}, number={1}, journal={Briefings in Bioinformatics}, publisher={Oxford University Press (OUP)}, author={Bommert, Andrea and Welchowski, Thomas and Schmid, Matthias and others}, year={2021} }
+
+@article{uno2011, title={On the {C}-statistics for evaluating overall adequacy of risk prediction procedures with censored survival data}, volume={30}, DOI={10.1002/sim.4154}, number={10}, journal={Statistics in Medicine}, publisher={Wiley}, author={Uno, Hajime and Cai, Tianxi and Pencina, Michael J. and others}, year={2011}, pages={1105--1117} }
+
+@article{graf1999, title={Assessment and comparison of prognostic classification schemes for survival data}, volume={18}, DOI={10.1002/(sici)1097-0258(19990915/30)18:17/18<2529::aid-sim274>3.0.co;2-5}, number={17-18}, journal={Statistics in Medicine}, publisher={Wiley}, author={Graf, Erika and Schmoor, Claudia and Sauerbrei, Willi and others}, year={1999}, pages={2529--2545} }
+
+@article{sonabend2021, title={{mlr3proba}: an {R} package for machine learning in survival analysis}, volume={37}, DOI={10.1093/bioinformatics/btab039}, number={17}, journal={Bioinformatics}, publisher={Oxford University Press (OUP)}, author={Sonabend, Raphael and Kir{\'a}ly, Franz J. and Bender, Andreas and others}, editor={Wren, Jonathan}, year={2021}, pages={2789--2791} }
+
+@book{therneau2000, title={Modeling Survival Data: Extending the Cox Model}, DOI={10.1007/978-1-4757-3294-8}, publisher={Springer New York}, author={Therneau, Terry M. and Grambsch, Patricia M.}, year={2000} }
+
+@article{nogueira2018,
+  author  = {Nogueira, Sarah and Sechidis, Konstantinos and Brown, Gavin},
+  title   = {On the Stability of Feature Selection Algorithms},
+  journal = {Journal of Machine Learning Research},
+  volume  = {18},
+  number  = {174},
+  pages   = {1--54},
+  year    = {2018}
+}
+
+@article{metabric2012, title={The genomic and transcriptomic architecture of 2,000 breast tumours reveals novel subgroups}, volume={486}, DOI={10.1038/nature10983}, number={7403}, journal={Nature}, publisher={Springer Science and Business Media LLC}, author={Curtis, Christina and Shah, Sohrab P. and Chin, Suet-Feung and others}, year={2012}, pages={346--352} }
+
+@article{metabric2016, title={The somatic mutation profiles of 2,433 breast cancers refine their genomic and transcriptomic landscapes}, volume={7}, DOI={10.1038/ncomms11479}, number={1}, journal={Nature Communications}, publisher={Springer Science and Business Media LLC}, author={Pereira, Bernard and Chin, Suet-Feung and Rueda, Oscar M. and others}, year={2016} }
+
+@article{benavoli2017,
+  author  = {Benavoli, Alessio and Corani, Giorgio and Dem{\v{s}}ar, Janez and others},
+  title   = {Time for a Change: a Tutorial for Comparing Multiple Classifiers Through {B}ayesian Analysis},
+  journal = {Journal of Machine Learning Research},
+  volume  = {18},
+  number  = {77},
+  pages   = {1--36},
+  year    = {2017}
+}
+
+% verified against joss.theoj.org 2026-11-06
+@article{lang2019,
+  author  = {Lang, Michel and Binder, Martin and Richter, Jakob and others},
+  title   = {{mlr3}: A modern object-oriented machine learning framework in {R}},
+  journal = {Journal of Open Source Software},
+  volume  = {4},
+  number  = {44},
+  pages   = {1903},
+  year    = {2019},
+  doi     = {10.21105/joss.01903}
+}
+
+% ---- cited by the supplementary material only. Fetched as BibTeX from doi.org
+% ---- (CrossRef content negotiation) on 2026-11-14, rekeyed, month and url dropped,
+% ---- typographic dashes and quotes replaced by their LaTeX forms. bioRxiv and eLife
+% ---- records carry no journal or page field, added from the DOI landing page.
+
+@article{korotkevich2016, title={Fast gene set enrichment analysis}, DOI={10.1101/060012}, journal={bioRxiv}, publisher={openRxiv}, author={Korotkevich, Gennady and Sukhov, Vladimir and Budin, Nikolay and others}, year={2016} }
+
+@article{liberzon2011, title={Molecular signatures database ({MSigDB}) 3.0}, volume={27}, DOI={10.1093/bioinformatics/btr260}, number={12}, journal={Bioinformatics}, publisher={Oxford University Press (OUP)}, author={Liberzon, Arthur and Subramanian, Aravind and Pinchback, Reid and others}, year={2011}, pages={1739--1740} }
+
+@article{liberzon2015, title={The {Molecular Signatures Database} {Hallmark} Gene Set Collection}, volume={1}, DOI={10.1016/j.cels.2015.12.004}, number={6}, journal={Cell Systems}, publisher={Elsevier BV}, author={Liberzon, Arthur and Birger, Chet and Thorvaldsd{\'o}ttir, Helga and others}, year={2015}, pages={417--425} }
+
+@article{simon2011, title={Regularization Paths for {Cox's} Proportional Hazards Model via Coordinate Descent}, volume={39}, DOI={10.18637/jss.v039.i05}, number={5}, journal={Journal of Statistical Software}, publisher={Foundation for Open Access Statistic}, author={Simon, Noah and Friedman, Jerome and Hastie, Trevor and others}, year={2011} }
+
+@article{welchowski2019, title={Correlation-adjusted regression survival scores for high-dimensional variable selection}, volume={38}, DOI={10.1002/sim.8116}, number={13}, journal={Statistics in Medicine}, publisher={Wiley}, author={Welchowski, Thomas and Zuber, Verena and Schmid, Matthias}, year={2019}, pages={2413--2427} }
+
+@article{kursa2021, title={Praznik: High performance information-based feature selection}, volume={16}, DOI={10.1016/j.softx.2021.100819}, journal={SoftwareX}, publisher={Elsevier BV}, author={Kursa, Miron B.}, year={2021}, pages={100819} }
+
+@article{bommert2021stabm, title={{stabm}: Stability Measures for Feature Selection}, volume={6}, DOI={10.21105/joss.03010}, number={59}, journal={Journal of Open Source Software}, publisher={The Open Journal}, author={Bommert, Andrea and Lang, Michel}, year={2021}, pages={3010} }
+
+@article{zanini2018, title={Single-cell transcriptional dynamics of flavivirus infection}, volume={7}, DOI={10.7554/elife.32942}, journal={eLife}, publisher={eLife Sciences Publications, Ltd}, author={Zanini, Fabio and Pu, Szu-Yuan and Bekerman, Elena and others}, year={2018}, pages={e32942} }
+
+@article{seal2023, title={Genenames.org: the {HGNC} resources in 2023}, volume={51}, DOI={10.1093/nar/gkac888}, number={D1}, journal={Nucleic Acids Research}, publisher={Oxford University Press (OUP)}, author={Seal, Ruth L and Braschi, Bryony and Gray, Kristian and others}, year={2022}, pages={D1003--D1009} }

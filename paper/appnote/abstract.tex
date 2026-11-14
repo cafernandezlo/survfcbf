@@ -1,0 +1,31 @@
+% Abstract shared by appnote.tex and preprint.tex. Each wrapper adds its own
+% Supplementary information line. Numbers are checked by
+% paper/check_manuscript_numbers.R.
+\textbf{Motivation:} Filter feature selection for high-dimensional survival
+data is dominated by rankers, which at their conventional cut-off carry thousands
+of genes forward, and adjacent ranks are often near-duplicates of one another. The
+fast correlation-based filter (FCBF) addresses this in classification by
+pruning each feature that an approximate Markov blanket renders redundant, returning
+a compact panel. The reference benchmark of survival filters contains no method that
+prunes by Markov blanket, and no FCBF implementation accepts a censored outcome.\\
+\textbf{Results:} \pkg{survfcbf} carries FCBF to right-censored data through
+martingale residuals of a null Cox model, with the information-theoretic core
+validated against the original FCBF package (identical selections on 395
+datasets). The package ships the filter in two cardinality modes,
+a leakage-safe nested cross-validation harness, a survival simulator with
+cluster-level ground truth, and wrappers for the standard baselines. In its
+recommended mode the user sets the panel size, ten genes in our runs against roughly
+two thousand for rankers at the conventional ten-percent cut-off. On eleven TCGA
+cohorts and METABRIC it runs near-linearly in the number of features
+($\sim p^{0.97}$, 8\,s at $p = 20{,}000$ on synthetic data) and completes every fold
+on every cohort. Over ten repetitions of cross-validation, its ten-gene panels
+discriminate less well than the rankers' two-thousand-gene lists, by about 0.05 in
+truncated Uno's C (95\% intervals exclude zero for all three rankers, and METABRIC
+shows the same gap). At equal panel size it is practically equivalent to mRMR in
+discrimination and halves the within-panel redundancy of unpruned mutual information,
+at a cost in selection stability.\\
+\textbf{Availability and implementation:} R package, GPL-3. Source and issue
+tracker at \url{https://github.com/cafernandezlo/survfcbf}, version \pkgversion{}
+archived at \href{https://doi.org/\zenododoi}{doi:\zenododoi}. All benchmark result
+tables regenerate from the repository.\\
+\textbf{Contact:} \texttt{carlos.fernandez@udc.es}\\

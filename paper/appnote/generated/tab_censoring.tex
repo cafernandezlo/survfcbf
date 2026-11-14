@@ -1,0 +1,19 @@
+\begin{tabular}{@{}l rrr rr r r@{}}
+\toprule
+ & \multicolumn{5}{c}{TCGA, eleven cohorts} &  &  \\
+\cmidrule(lr){2-6}
+Panel of ten genes & Mean & Min & Max & Percentile & Above 95th & METABRIC & Null fits \\
+\midrule
+\pkg{survfcbf}, $q = 2$ & 0.526 & 0.470 & 0.603 & 0.26 & 0 & 0.52 & 9 \\
+\pkg{survfcbf}, $q = 4$ & 0.573 & 0.484 & 0.682 & 0.75 & 5 & n.r. & 1 \\
+\pkg{survfcbf}, $q = 10$ & 0.576 & 0.459 & 0.667 & 0.84 & 5 & 1.00 & 0 \\
+mRMR & 0.568 & 0.513 & 0.668 & 0.76 & 3 & 1.00 & 0 \\
+mRMR, $q = 2$ & 0.540 & 0.482 & 0.615 & 0.43 & 1 & n.r. & 3 \\
+MIM & 0.574 & 0.468 & 0.676 & 0.77 & 4 & 0.90 & 0 \\
+MIM, $q = 2$ & 0.548 & 0.487 & 0.644 & 0.56 & 1 & n.r. & 5 \\
+Variance & 0.509 & 0.457 & 0.658 & 0.16 & 1 & n.r. & 19 \\
+CAR & 0.542 & 0.492 & 0.605 & 0.42 & 2 & n.r. & 1 \\
+\midrule
+100 random panels & 0.546 & 0.502 & 0.601 &  &  &  & 470 \\
+\bottomrule
+\end{tabular}

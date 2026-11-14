@@ -1,0 +1,146 @@
+---
+title: "Getting started with survfcbf"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with survfcbf}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+## The evaluation harness runs on optional packages, so its chunks are skipped without them
+has_stack <- all(vapply(c("mlr3", "mlr3proba", "mlr3extralearners", "glmnet", "praznik", "stabm"),
+                        requireNamespace, logical(1), quietly = TRUE))
+```
+
+`survfcbf` carries the fast correlation-based filter (FCBF, Yu and Liu 2003) to right-censored
+outcomes. It keeps a small panel of features in which no feature is made redundant by a more
+relevant one, using an approximate Markov blanket. This vignette selects a panel from a simulated
+dataset, inspects the decisions behind it, scores it against the known truth, and evaluates it
+without information leakage.
+
+Use it when a compact, non-redundant panel is what you need. If you need the best discrimination
+whatever the panel size, or a ranking that stays stable under resampling, the rankers the package
+wraps do better on real expression data.
+
+```{r}
+library(survfcbf)
+```
+
+## A dataset with known truth
+
+`simulate_dataset()` generates block-correlated features whose roles are recorded in a manifest:
+driver clusters with redundant members, correlated distractors, and noise. Because the truth is
+known, a selection can be scored.
+
+```{r}
+sim <- simulate_dataset(default_params(
+  p = 300L, n = 400L, k_drivers = 3L, cluster_size = 5L,
+  n_distractor_subblocks = 2L, distractor_size = 8L,
+  censor_fraction = 0.5, target_C = 0.75,
+  seed = 1L, calib_n_presample = 800L
+))
+sim$realized$n_events
+table(sim$manifest$role)
+```
+
+## Selecting a panel
+
+The recommended mode fixes the panel size with `top`. Relevance and pruning run as usual until
+that many predominant features are kept, so the result is deterministic and needs no permutations.
+
+```{r}
+sel <- survfcbf_select(sim$time, sim$status, sim$X, q = 2L, top = 5L)
+sel$selected
+```
+
+`q` is the number of equal-frequency bins. Left at `NULL` it follows Bommert's rule, which gives 10
+here. The benchmark reported for the package runs this mode at `q = 2`, so set it explicitly to
+reproduce that configuration.
+
+The indices point into the columns of `X`. On this dataset the panel holds three members of the
+driver clusters and two noise features, because `top` asks for more features than there are signals:
+
+```{r}
+sim$manifest$role[sel$selected]
+```
+
+## Inspecting the decisions
+
+Everything the filter decided is kept in `sel$trace`. `removed` lists each pruned feature, the
+feature that made it redundant, and the two values of symmetrical uncertainty that were compared.
+A feature goes when it is more strongly tied to its blanket than to the target.
+
+```{r}
+head(sel$trace$removed, 3)
+```
+
+`representative_per_cluster` gives the group each selected feature stands for:
+
+```{r}
+sel$trace$representative_per_cluster[1:2]
+```
+
+## Scoring against the truth
+
+Members of a driver cluster are interchangeable, so recovery is scored by cluster rather than by
+exact index. A cluster counts as found when any of its members is selected.
+
+```{r}
+unlist(score_selection_clusterwise(sel$selected, sim$manifest)[c("sensitivity", "fdr", "exact_recovery")])
+```
+
+## The permutation mode
+
+Without `top` the filter chooses its own panel size: relevance is thresholded at a value `delta`
+taken from a permutation null of the target. This is the original formulation, but with few events
+the threshold can exceed the relevance of the true signals, and the panel comes back very small or
+empty. A panel of fewer than two features is also too small for a penalised Cox model downstream.
+
+```{r}
+pm <- survfcbf_select(sim$time, sim$status, sim$X, B = 50L, seed = 1L)
+pm$delta
+length(pm$selected)
+```
+
+That is why `top` is the recommended mode.
+
+## Evaluating without leakage
+
+`benchmark_selectors()` runs selectors through nested cross-validation on an `mlr3proba` task.
+Everything learned from data is fitted on the training fold only. This part needs the optional
+packages listed in the README. The call below uses 3 folds to stay quick, so its numbers illustrate
+the output and say nothing about the methods.
+
+```{r, eval = has_stack, message = FALSE, warning = FALSE}
+library(mlr3)
+library(mlr3proba)
+library(mlr3extralearners)
+lgr::get_logger("mlr3")$set_threshold("warn")
+
+task <- surv_task(sim$time, sim$status, sim$X)
+selectors <- default_selectors(prop = 0.1, topk = 5L)[c("survfcbf_topk", "variance", "mim_surv")]
+learner <- lrn("surv.cv_glmnet", alpha = 0, s = "lambda.min")
+
+results <- benchmark_selectors(task, selectors, learner, outer_folds = 3L, seed = 1L)
+results[, c("selector", "uno_c_trunc", "uno_c", "ibs", "stability", "parsimony", "n_failed", "n_null_fit")]
+```
+
+`uno_c_trunc` is the primary discrimination metric: Uno's C truncated at the 80th percentile of
+the follow-up of each training fold (the `truncation` argument). The untruncated `uno_c` is kept for
+comparison. Its censoring weights grow without bound for test events beyond the last censoring time
+of the training fold, so a few pairs can decide the value of a fold.
+
+Two more columns deserve attention:
+
+- `n_failed` counts folds where no model could be fitted, usually because the panel was too small.
+- `n_null_fit` counts folds where the learner ignored its features and predicted the baseline. Keep
+  `s = "lambda.min"` in the ridge Cox learner. At its default `lambda.1se`, with far more features
+  than events, the learner collapses to the null model, and every panel then gets the same
+  integrated Brier score. It can still happen under `lambda.min` when a panel carries no signal. A
+  non-zero count means those folds do not measure the selected panel.
+
+Compare selectors at the same panel size where you can. In the call above the rankers keep 10% of
+the features against 5 for `survfcbf_topk`, so the table measures panel size as well as the
+selection rule.

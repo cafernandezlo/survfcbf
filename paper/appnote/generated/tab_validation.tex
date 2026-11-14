@@ -1,0 +1,19 @@
+\begin{tabularx}{\linewidth}{@{}X rrrr@{}}
+\toprule
+Check & Compared & Mismatches & At a tie & Skipped \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{A. \pkg{survfcbf} against the \pkg{FCBF} package}} \\
+SU of random factor pairs ($n$ 20 to 120, 2 to 6 levels) & 200 & 0 & 0 &  \\
+Selections, 400 generated datasets, those without an exact SU tie & 395 & 0 & 0 & 5 \\
+Selections, 300 generated datasets with duplicated features allowed & 300 & 33 & 33 &  \\
+Selections on scDengue (19{,}541 genes, 120 cells), five thresholds & 5 & 0 & 0 &  \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{B. top-$K$ run against the first $K$ features of the full run}} \\
+400 generated datasets, $K$ = 1 to 6, one of four thresholds each & 2{,}333 & 0 & 0 &  \\
+With precomputed relevance and observation weights & 1{,}800 & 0 & 0 &  \\
+Duplicated columns and tied relevance & 3{,}000 & 0 & 0 &  \\
+scDengue, threshold 0.05, $K$ = 1 to 10 & 10 & 0 & 0 &  \\
+\midrule
+All top-$K$ checks & 7{,}143 & 0 &  &  \\
+\bottomrule
+\end{tabularx}
