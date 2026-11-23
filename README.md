@@ -1,5 +1,8 @@
 # survfcbf
 
+[![R-CMD-check](https://github.com/cafernandezlo/survfcbf/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/cafernandezlo/survfcbf/actions/workflows/R-CMD-check.yaml)
+[![GitHub release](https://img.shields.io/github/v/release/cafernandezlo/survfcbf)](https://github.com/cafernandezlo/survfcbf/releases/latest)
+[![License: GPL-3](https://img.shields.io/badge/License-GPL--3-blue.svg)](https://github.com/cafernandezlo/survfcbf/blob/main/LICENSE.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24472789.svg)](https://doi.org/10.5281/zenodo.24472789)
 
 Fast correlation-based filter (FCBF) feature selection for right-censored survival data, with a
