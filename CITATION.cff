@@ -7,7 +7,7 @@ authors:
   - family-names: Fernandez-Lozano
     given-names: Carlos
     orcid: "https://orcid.org/0000-0003-0413-5677"
-    affiliation: "Universidade da Coruña"
+    affiliation: "Universidade da Coruña and Institute of Biomedical Research of A Coruña (INIBIC)"
 repository-code: "https://github.com/cafernandezlo/survfcbf"
 url: "https://github.com/cafernandezlo/survfcbf"
 license: GPL-3.0-only
