@@ -12,7 +12,7 @@
 #
 # Deliberately NOT tracked: realdata_scores/ (5.0 MB, feeds only realdata_gsea/gsea.rds,
 # which is tracked), realdata_signatures*/backgrounds.rds, gsea_full.csv and the other
-# intermediates. The full tree goes to the Zenodo deposit instead.
+# intermediates. Their scripts regenerate them from the input data.
 results/*
 !results/benchmark_realdata.csv
 !results/grid_tiebreak_check.csv

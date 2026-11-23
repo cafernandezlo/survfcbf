@@ -10,7 +10,8 @@
 # Expression is the COMPLETE profile brca_metabric_mrna (Illumina HT-12 v3, 19,850 genes x
 # 1,980 samples, 19,839 genes after the NA/variance filter), the snapshot
 # metabric_expression_full.rds downloaded from the cBioPortal REST API (portal v7.2.0) on
-# 2026-10-25. Its provenance is described in the README of the METABRIC Zenodo record.
+# 2026-10-25. Its provenance is described in the README of the METABRIC Zenodo record,
+# doi:10.5281/zenodo.24473297, which holds both snapshots.
 # Both the expression snapshot and the clinical table are SHA-256 checked, so a swapped
 # input stops the run instead of changing the numbers.
 load_metabric <- function(dir = Sys.getenv("METABRIC_DIR", ""),
@@ -20,7 +21,7 @@ load_metabric <- function(dir = Sys.getenv("METABRIC_DIR", ""),
                           clinical_sha256 = "5572d56677e8d59bad60fc0055cd0e06a221aeb22cd0ef09a1c016070eee4bb7") {
   if (!nzchar(dir))
     stop("set METABRIC_DIR to the folder holding ", file, " and ", clinical,
-         " (both are in the METABRIC Zenodo record cited in the App Note)", call. = FALSE)
+         " (both are in the Zenodo record doi:10.5281/zenodo.24473297)", call. = FALSE)
   if (!dir.exists(dir)) stop("METABRIC_DIR does not exist: ", dir, call. = FALSE)
   checked <- function(name, expected) {
     f <- file.path(dir, name)

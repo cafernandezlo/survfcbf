@@ -1,5 +1,7 @@
 # survfcbf
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24472789.svg)](https://doi.org/10.5281/zenodo.24472789)
+
 Fast correlation-based filter (FCBF) feature selection for right-censored survival data, with a
 leakage-safe harness to evaluate it and any other survival filter.
 
@@ -121,8 +123,9 @@ and module names are site-specific. The data are not in the repository:
   (2022): `realdata/load_bommert.R` downloads them from OpenML and caches them in `BOMMERT_DATA`.
 - **METABRIC**, the complete cBioPortal profile `brca_metabric_mrna`: `realdata/load_metabric.R` reads
   the expression snapshot and the clinical table from `METABRIC_DIR` and stops if either SHA-256 does
-  not match. A later download may not match byte for byte. The DOI of the archived snapshot will be
-  added here at release.
+  not match. A later download may not match byte for byte, so both files are archived on Zenodo
+  under the ODC Open Database License:
+  [doi:10.5281/zenodo.24473297](https://doi.org/10.5281/zenodo.24473297).
 
 The figures quoted in the Application Note come from a single file and are checked against the text:
 
@@ -139,4 +142,9 @@ cBioPortal.
 
 ## Citation
 
-Application Note in preparation. Until then, please cite the repository.
+Application Note in preparation. Until then, please cite the software:
+
+Fernandez-Lozano C. survfcbf: Fast Correlation-Based Filter Feature Selection for Right-Censored
+Survival Data. Zenodo.
+[doi:10.5281/zenodo.24472789](https://doi.org/10.5281/zenodo.24472789) (all versions), version
+0.1.0 at [doi:10.5281/zenodo.24472792](https://doi.org/10.5281/zenodo.24472792).

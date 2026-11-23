@@ -94,7 +94,7 @@ hdr <- c(
   "#",
   "# Deliberately NOT tracked: realdata_scores/ (5.0 MB, feeds only realdata_gsea/gsea.rds,",
   "# which is tracked), realdata_signatures*/backgrounds.rds, gsea_full.csv and the other",
-  "# intermediates. The full tree goes to the Zenodo deposit instead.",
+  "# intermediates. Their scripts regenerate them from the input data.",
   "results/*")
 body <- sprintf("!results/%s", keep[!grepl("/", keep)])
 for (d in sort(unique(dirname(keep[grepl("/", keep)])))) {

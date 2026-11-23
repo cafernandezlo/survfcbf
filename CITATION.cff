@@ -2,6 +2,7 @@ cff-version: 1.2.0
 message: "If you use survfcbf, please cite it as below."
 title: "survfcbf: Fast Correlation-Based Filter Feature Selection for Right-Censored Survival Data"
 type: software
+doi: "10.5281/zenodo.24472789"
 authors:
   - family-names: Fernandez-Lozano
     given-names: Carlos
